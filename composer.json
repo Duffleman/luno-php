@@ -1,0 +1,24 @@
+{
+    "name": "duffleman/lunophp",
+    "description": "PHP Library for interacting with luno.io",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "George Miller",
+            "email": "luno@duffleman.co.uk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Duffleman\\Luno\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^6.1"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^3.0"
+    }
+}
