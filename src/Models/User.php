@@ -2,15 +2,14 @@
 
 namespace Duffleman\Luno\Models;
 
-use Duffleman\Luno\Exceptions\LunoUserException;
 use Duffleman\Luno\Traits\Creatable;
 use Duffleman\Luno\Traits\CustomFields;
 use Duffleman\Luno\Traits\Findable;
-use Duffleman\Luno\Traits\Saveable;
 
 class User extends Base
 {
-    use Creatable, Findable, Saveable, CustomFields;
+
+    use Creatable, Findable, Savable, CustomFields;
 
     protected $endpoint = '/users';
     protected $customFieldSetName = 'profile';

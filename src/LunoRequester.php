@@ -61,11 +61,11 @@ class LunoRequester
 
         $params['sign'] = $verified_sign;
 
-        switch($method) {
+        switch ($method) {
             case 'DELETE':
             case 'GET':
                 $response = $this->guzzle->request($method, $this->config['host'] . $route, [
-                    'body' => json_encode($body) ?: null,
+                    'body'  => json_encode($body) ?: null,
                     'query' => $params,
                 ]);
                 break;
@@ -73,11 +73,11 @@ class LunoRequester
             case 'PATCH':
             case 'POST':
                 $response = $this->guzzle->request($method, $this->config['host'] . $route, [
-                    'body' => json_encode($body) ?: null,
+                    'body'    => json_encode($body) ?: null,
                     'headers' => [
                         'content-type' => 'application/json',
                     ],
-                    'query' => $params,
+                    'query'   => $params,
                 ]);
                 break;
         }
@@ -92,9 +92,10 @@ class LunoRequester
         return date('Y-m-d\TH:i:s.000\Z');
     }
 
-    public function __get($variable_name) {
-        if($variable_name === 'user') {
-            if(!is_null($this->user)) {
+    public function __get($variable_name)
+    {
+        if ($variable_name === 'user') {
+            if (!is_null($this->user)) {
                 return $this->user;
             } else {
                 return new User($this);

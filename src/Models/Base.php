@@ -6,6 +6,7 @@ use Duffleman\Luno\LunoRequester;
 
 class Base
 {
+
     protected $requester;
 
     protected $original;

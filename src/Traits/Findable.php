@@ -1,7 +1,6 @@
 <?php
 namespace Duffleman\Luno\Traits;
 
-
 trait Findable
 {
 
