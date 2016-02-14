@@ -20,6 +20,7 @@ class User extends Base
         'name',
         'first_name',
         'last_name',
+        'profile',
     ];
 
     public function updateProfile(array $data)

@@ -24,10 +24,16 @@ trait CustomFields
     }
 
     public function updateCustom(array $data) {
-        return $data;
+        foreach($data as $key => $value) {
+            $this->customFields[$key] = $value;
+        }
+
+        $this->updated[$this->customFieldSetName] = $this->customFields;
     }
 
     public function overrideCustom(array $data) {
-        return $data;
+        $this->customFields = $data;
+
+        $this->updated[$this->customFieldSetName] = $this->customFields;
     }
 }
