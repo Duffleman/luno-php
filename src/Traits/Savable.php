@@ -26,7 +26,7 @@ trait Savable
             return false;
         }
 
-        $response = $this->requester->request('PUT', "{$this->endpoint}/{$this->original['id']}", [], $newUserData);
+        $response = $this->requester->request('PUT', "{$this->endpoint}/{$this->getID()}", [], $newUserData);
 
         if ($response['success'] === true) {
             $this->populateModel($this->updated);

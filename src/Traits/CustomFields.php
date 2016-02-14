@@ -35,7 +35,7 @@ trait CustomFields
             $this->customFieldSetName => $this->customFields
         ];
 
-        return $this->requester->request('PATCH', "{$this->endpoint}/{$this->original['id']}", [], $data);
+        return $this->requester->request('PATCH', "{$this->endpoint}/{$this->getID()}", [], $data);
     }
 
     public function overrideCustom(array $data)
@@ -48,6 +48,6 @@ trait CustomFields
             $this->customFieldSetName => $this->customFields
         ];
 
-        return $this->requester->request('PUT', "{$this->endpoint}/{$this->original['id']}", [], $data);
+        return $this->requester->request('PUT', "{$this->endpoint}/{$this->getID()}", [], $data);
     }
 }

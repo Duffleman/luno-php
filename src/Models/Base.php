@@ -4,7 +4,7 @@ namespace Duffleman\Luno\Models;
 
 use Duffleman\Luno\LunoRequester;
 
-class Base
+abstract class Base
 {
 
     protected $requester;
@@ -42,6 +42,16 @@ class Base
     public function __set($name, $value)
     {
         $this->updated[$name] = $value;
+    }
+
+    public function updateInstance()
+    {
+        return $this->find($this->getID());
+    }
+
+    public function getID()
+    {
+        return $this->original['id'];
     }
 
     protected function usesCustom()
