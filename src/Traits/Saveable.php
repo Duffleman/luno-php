@@ -23,6 +23,8 @@ trait Saveable
             $newUserData[$key] = $this->updated[$key];
         }
 
+        $this->updateCustomAttributes();
+
         if(count($newUserData) === 0) {
             return false;
         }
@@ -35,6 +37,22 @@ trait Saveable
         } else {
             throw new LunoUserException("Unable to update the model.");
         }
+    }
+
+    protected function updateCustomAttributes() {
+        if($this->checkIfUsesCustomFields()) {
+            // do stuff with the custom field set.
+        }
+    }
+
+    protected function checkIfUsesCustomFields()
+    {
+        $traits = class_uses($this);
+        if(array_key_exists("Duffleman\\Luno\\Traits\\CustomFields", $traits)) {
+            return true;
+        }
+
+        return false;
     }
 
 }
