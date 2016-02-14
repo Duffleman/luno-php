@@ -2,12 +2,14 @@
 
 namespace Duffleman\Luno;
 
+use Duffleman\Luno\Users\User;
 use GuzzleHttp\Client;
 
 class LunoRequester
 {
 
     private $guzzle;
+    private $user;
 
     private $config = [
         'host'    => 'https://api.luno.io',
@@ -40,34 +42,63 @@ class LunoRequester
         }
     }
 
-    public function request($method, $route, $params = [], $body = null)
+    public function request($method, $route, $params = [], array $body = [])
     {
         $params['key'] = $this->config['key'];
         $params['timestamp'] = $this->buildTimestamp();
 
         $route = $this->endpoint . $route;
 
+        ksort($params);
         $query_string = http_build_query($params);
         $sign = "{$method}:{$route}?{$query_string}";
 
         if ($body) {
-            $sign += ":" . json_encode($body);
+            $sign .= ":" . json_encode($body);
         }
 
         $verified_sign = hash_hmac('sha512', utf8_encode($sign), utf8_encode($this->config['secret']));
 
         $params['sign'] = $verified_sign;
 
-        $response = $this->guzzle->request($method, $this->config['host'] . $route, [
-            'body'  => $body ?: null,
-            'query' => $params,
-        ]);
+        switch($method) {
+            case 'DELETE':
+            case 'GET':
+                $response = $this->guzzle->request($method, $this->config['host'] . $route, [
+                    'body' => json_encode($body) ?: null,
+                    'query' => $params,
+                ]);
+                break;
+            case 'PUT':
+            case 'PATCH':
+            case 'POST':
+                $response = $this->guzzle->request($method, $this->config['host'] . $route, [
+                    'body' => json_encode($body) ?: null,
+                    'headers' => [
+                        'content-type' => 'application/json',
+                    ],
+                    'query' => $params,
+                ]);
+                break;
+        }
 
-        return (string)$response->getBody();
+        $jsonResponse = (string)$response->getBody();
+
+        return json_decode($jsonResponse, true);
     }
 
     private function buildTimestamp()
     {
-        return date('c');
+        return date('Y-m-d\TH:i:s.000\Z');
+    }
+
+    public function __get($variable_name) {
+        if($variable_name === 'user') {
+            if(!is_null($this->user)) {
+                return $this->user;
+            } else {
+                return new User($this);
+            }
+        }
     }
 }
