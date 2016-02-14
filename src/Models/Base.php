@@ -43,4 +43,14 @@ class Base
     {
         $this->updated[$name] = $value;
     }
+
+    protected function usesCustom()
+    {
+        $traits = class_uses($this);
+        if (in_array('Duffleman\\Luno\\Traits\\CustomFields', $traits)) {
+            return true;
+        }
+
+        return false;
+    }
 }

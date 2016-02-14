@@ -5,6 +5,7 @@ namespace Duffleman\Luno\Models;
 use Duffleman\Luno\Traits\Creatable;
 use Duffleman\Luno\Traits\CustomFields;
 use Duffleman\Luno\Traits\Findable;
+use Duffleman\Luno\Traits\Savable;
 
 class User extends Base
 {

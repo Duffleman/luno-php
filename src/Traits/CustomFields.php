@@ -30,6 +30,12 @@ trait CustomFields
         }
 
         $this->updated[$this->customFieldSetName] = $this->customFields;
+
+        $data = [
+            $this->customFieldSetName => $this->customFields
+        ];
+
+        return $this->requester->request('PATCH', "{$this->endpoint}/{$this->original['id']}", [], $data);
     }
 
     public function overrideCustom(array $data)
@@ -37,5 +43,11 @@ trait CustomFields
         $this->customFields = $data;
 
         $this->updated[$this->customFieldSetName] = $this->customFields;
+
+        $data = [
+            $this->customFieldSetName => $this->customFields
+        ];
+
+        return $this->requester->request('PUT', "{$this->endpoint}/{$this->original['id']}", [], $data);
     }
 }

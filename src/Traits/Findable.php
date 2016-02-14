@@ -6,10 +6,13 @@ trait Findable
 
     public function find($id_string)
     {
-        $user = $this->requester->request('GET', "{$this->endpoint}/{$id_string}");
-        $this->populateModel($user);
+        $model = $this->requester->request('GET', "{$this->endpoint}/{$id_string}");
+        $this->populateModel($model);
+
+        if ($this->usesCustom()) {
+            $this->customFields = $model[$this->customFieldSetName];
+        }
 
         return $this;
     }
-
 }

@@ -69,8 +69,8 @@ class LunoRequester
                     'query' => $params,
                 ]);
                 break;
-            case 'PUT':
             case 'PATCH':
+            case 'PUT':
             case 'POST':
                 $response = $this->guzzle->request($method, $this->config['host'] . $route, [
                     'body'    => json_encode($body) ?: null,
