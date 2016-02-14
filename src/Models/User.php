@@ -1,9 +1,8 @@
 <?php
 
-namespace Duffleman\Luno\Users;
+namespace Duffleman\Luno\Models;
 
 use Duffleman\Luno\Exceptions\LunoUserException;
-use Duffleman\Luno\Models\Base;
 use Duffleman\Luno\Traits\Creatable;
 use Duffleman\Luno\Traits\Findable;
 use Duffleman\Luno\Traits\Saveable;

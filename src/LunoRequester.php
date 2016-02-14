@@ -2,7 +2,7 @@
 
 namespace Duffleman\Luno;
 
-use Duffleman\Luno\Users\User;
+use Duffleman\Luno\Models\User;
 use GuzzleHttp\Client;
 
 class LunoRequester
