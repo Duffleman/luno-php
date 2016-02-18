@@ -2,6 +2,8 @@
 
 namespace Duffleman\Luno\Traits;
 
+use stdClass;
+
 trait CustomFields
 {
 
@@ -38,8 +40,18 @@ trait CustomFields
         return $this->requester->request('PATCH', "{$this->endpoint}/{$this->getID()}", [], $data);
     }
 
-    public function overrideCustom(array $data)
+    public function overrideCustom(array $data = [])
     {
+        if (empty($data)) {
+            $data = [
+                $this->customFieldSetName => new stdClass(),
+            ];
+
+            $this->customFields = [];
+
+            return $this->requester->request('PUT', "{$this->endpoint}/{$this->getID()}", [], $data);
+        }
+
         $this->customFields = $data;
 
         $this->updated[$this->customFieldSetName] = $this->customFields;

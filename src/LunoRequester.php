@@ -2,15 +2,14 @@
 
 namespace Duffleman\Luno;
 
-use Duffleman\Luno\Models\User;
+use Duffleman\Luno\Exceptions\LunoApiException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class LunoRequester
 {
 
     private $guzzle;
-    private $user;
-
     private $config = [
         'host'    => 'https://api.luno.io',
         'version' => 1,
@@ -61,25 +60,30 @@ class LunoRequester
 
         $params['sign'] = $verified_sign;
 
-        switch ($method) {
-            case 'DELETE':
-            case 'GET':
-                $response = $this->guzzle->request($method, $this->config['host'] . $route, [
-                    'body'  => json_encode($body) ?: null,
-                    'query' => $params,
-                ]);
-                break;
-            case 'PATCH':
-            case 'PUT':
-            case 'POST':
-                $response = $this->guzzle->request($method, $this->config['host'] . $route, [
-                    'body'    => json_encode($body) ?: null,
-                    'headers' => [
-                        'content-type' => 'application/json',
-                    ],
-                    'query'   => $params,
-                ]);
-                break;
+        try {
+            switch ($method) {
+                case 'DELETE':
+                case 'GET':
+                    $response = $this->guzzle->request($method, $this->config['host'] . $route, [
+                        'body'  => json_encode($body) ?: null,
+                        'query' => $params,
+                    ]);
+                    break;
+                case 'PATCH':
+                case 'PUT':
+                case 'POST':
+                    $response = $this->guzzle->request($method, $this->config['host'] . $route, [
+                        'body'    => json_encode($body) ?: null,
+                        'headers' => [
+                            'content-type' => 'application/json',
+                        ],
+                        'query'   => $params,
+                    ]);
+                    break;
+            }
+        } catch (ClientException $exception) {
+            $rawResponse = json_decode((string)$exception->getResponse()->getBody(), true);
+            throw new LunoApiException($rawResponse);
         }
 
         $jsonResponse = (string)$response->getBody();
@@ -94,12 +98,13 @@ class LunoRequester
 
     public function __get($variable_name)
     {
-        if ($variable_name === 'user') {
-            if (!is_null($this->user)) {
-                return $this->user;
-            } else {
-                return new User($this);
-            }
+        $classes = ['user', 'event', 'session'];
+        if (in_array($variable_name, $classes)) {
+            $class_name = '\\Duffleman\\Luno\\Models\\' . ucwords($variable_name);
+
+            return new $class_name($this);
         }
+
+        return $this->{$variable_name};
     }
 }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0387997f9679b20d88ad5b8eb1810845",
-    "content-hash": "e625969417a8c5fad31d89734e013cde",
+    "hash": "db7ebd41482972640dce40766e540964",
+    "content-hash": "789c8edd5125f9756a098dcb06fab8cc",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "8c033e192fdcddb3067ca77e0b6829e910ecdd7d"
+                "reference": "739b9c8378c462943c42fee5353453ab4164ed8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8c033e192fdcddb3067ca77e0b6829e910ecdd7d",
-                "reference": "8c033e192fdcddb3067ca77e0b6829e910ecdd7d",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/739b9c8378c462943c42fee5353453ab4164ed8e",
+                "reference": "739b9c8378c462943c42fee5353453ab4164ed8e",
                 "shasum": ""
             },
             "require": {
@@ -67,7 +67,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2016-01-31 00:19:49"
+            "time": "2016-02-17 21:09:10"
         },
         {
             "name": "guzzlehttp/promises",
@@ -294,12 +294,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "c6c8f6195ee77f4e89cafa94f2dc738314349b88"
+                "reference": "3c2f3b6d45a3098450bd1a10376d1d50918006b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c6c8f6195ee77f4e89cafa94f2dc738314349b88",
-                "reference": "c6c8f6195ee77f4e89cafa94f2dc738314349b88",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/3c2f3b6d45a3098450bd1a10376d1d50918006b5",
+                "reference": "3c2f3b6d45a3098450bd1a10376d1d50918006b5",
                 "shasum": ""
             },
             "require": {
@@ -349,7 +349,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2016-01-14 09:13:44"
+            "time": "2016-02-13 09:24:02"
         }
     ],
     "aliases": [],
@@ -357,6 +357,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.0.0"
+    },
     "platform-dev": []
 }
