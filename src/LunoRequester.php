@@ -96,15 +96,19 @@ class LunoRequester
         return date('Y-m-d\TH:i:s.000\Z');
     }
 
-    public function __get($variable_name)
+    public function __get($name)
     {
-        $classes = ['user', 'event', 'session'];
-        if (in_array($variable_name, $classes)) {
-            $class_name = '\\Duffleman\\Luno\\Models\\' . ucwords($variable_name);
+        $name = str_singular($name);
+        $name = ucwords($name);
+        $name .= 'Collection';
+        $fqns = 'Duffleman\\Luno\\Collections\\';
+        $fqcn = $fqns . $name;
 
-            return new $class_name($this);
+        if (class_exists($fqcn)) {
+            return new $fqcn($this);
         }
 
-        return $this->{$variable_name};
+
     }
+
 }
