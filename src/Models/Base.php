@@ -8,30 +8,39 @@ abstract class Base
 {
 
     protected $requester;
-
+    protected $user_id;
     protected $original;
     protected $updated;
-
     protected $customFieldSetName = null;
-
     protected $customFields = [];
-
     protected $editableFields = [];
 
-    public function __construct(LunoRequester $requester)
+    public function __construct(LunoRequester $requester, array $baseAttributes = [])
     {
         $this->requester = $requester;
+        $this->populateModel($baseAttributes);
+    }
+
+    public function populateModel(array $attributes)
+    {
+        $this->populateUserID($attributes);
+
+        $this->original = $attributes;
+        $this->updated = $attributes;
+    }
+
+    private function populateUserID($attributes)
+    {
+        $array = array_dot($attributes);
+
+        if (array_key_exists('user.id', $array)) {
+            $this->user_id = $array['user.id'];
+        }
     }
 
     public function toArray()
     {
         return (array)$this->updated;
-    }
-
-    public function populateModel(array $attributes)
-    {
-        $this->original = $attributes;
-        $this->updated = $attributes;
     }
 
     public function __get($name)

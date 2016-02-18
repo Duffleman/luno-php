@@ -77,6 +77,9 @@ class User extends Base
 
         $response = $this->requester->request("POST", "{$this->endpoint}/login", [], $body);
 
+        $session = $response['session'];
+        $user = $response['user'];
 
+        return (new Session($this->requester, $session))->setUserAttributes($user);
     }
 }

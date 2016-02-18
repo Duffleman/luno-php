@@ -42,19 +42,16 @@ trait CustomFields
 
     public function overrideCustom(array $data = [])
     {
+        $this->customFields = $data;
+        $this->updated[$this->customFieldSetName] = $this->customFields;
+
         if (empty($data)) {
             $data = [
                 $this->customFieldSetName => new stdClass(),
             ];
 
-            $this->customFields = [];
-
             return $this->requester->request('PUT', "{$this->endpoint}/{$this->getID()}", [], $data);
         }
-
-        $this->customFields = $data;
-
-        $this->updated[$this->customFieldSetName] = $this->customFields;
 
         $data = [
             $this->customFieldSetName => $this->customFields
