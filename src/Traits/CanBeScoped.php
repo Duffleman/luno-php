@@ -2,11 +2,6 @@
 
 namespace Duffleman\Luno\Traits;
 
-/**
- * Class CanBeScoped
- *
- * @package Duffleman\Luno\Traits
- */
 use Generator;
 
 /**
