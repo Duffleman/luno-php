@@ -50,8 +50,8 @@ class BaseCollection extends BaseInteractor
     public function recent(int $limit = null, string $from = null, string $to = null): array
     {
         $params = [
-            'from'  => $from,
             'limit' => $limit,
+            'from'  => $from,
             'to'    => $to,
         ];
 
