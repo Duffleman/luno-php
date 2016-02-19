@@ -2,11 +2,28 @@
 
 namespace Duffleman\Luno\Collections;
 
+/**
+ * Class EventCollection
+ *
+ * @package Duffleman\Luno\Collections
+ */
 class EventCollection extends BaseCollection
 {
 
+    /**
+     * Endpoint for this model.
+     *
+     * @var string
+     */
     protected static $endpoint = '/events';
 
+    /**
+     * Create a new event.
+     *
+     * @param array $attributes
+     * @return array
+     * @throws \Duffleman\Luno\Exceptions\LunoApiException
+     */
     public function create(array $attributes): array
     {
         $id = $attributes['id'];
