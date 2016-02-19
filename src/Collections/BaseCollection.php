@@ -21,6 +21,8 @@ class BaseCollection extends BaseInteractor
     protected static $endpoint;
 
     /**
+     * Get all resources attached to this endpoint.
+     *
      * @return Generator
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
@@ -35,7 +37,7 @@ class BaseCollection extends BaseInteractor
             }
         } while (!empty($collection['page']['next']));
 
-        return $collection;
+        return true;
     }
 
     /**
