@@ -2,7 +2,11 @@
 
 namespace Duffleman\Luno;
 
+use Duffleman\Luno\Collections\{
+    ApiCollection, EventCollection, SessionCollection, UserCollection
+};
 use Duffleman\Luno\Exceptions\LunoApiException;
+use Duffleman\Luno\Exceptions\LunoLibraryException;
 use Duffleman\Luno\Interactors\AnalyticsInteractor;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -14,6 +18,19 @@ use GuzzleHttp\Exception\ClientException;
  */
 class LunoRequester
 {
+
+    /**
+     * Holds array to map __get variables to a return class.
+     *
+     * @var array
+     */
+    private static $classmap = [
+        'api'       => ApiCollection::class,
+        'analytics' => AnalyticsInteractor::class,
+        'users'     => UserCollection::class,
+        'sessions'  => SessionCollection::class,
+        'events'    => EventCollection::class,
+    ];
 
     /**
      * Holds the Guzzle client.
@@ -156,26 +173,21 @@ class LunoRequester
 
     /**
      * I dislike magic getters.
-     * But we return collections where we can ;)
+     * But we return an appropriate class where we can ;)
      *
      * @param $name
      * @return mixed
+     * @throws LunoLibraryException
      */
     public function __get($name)
     {
-        if ($name === 'analytics') {
-            return new AnalyticsInteractor($this);
+        if (array_key_exists($name, static::$classmap)) {
+            $class = static::$classmap[$name];
+
+            return new $class($this);
         }
 
-        $name = str_singular($name);
-        $name = ucwords($name);
-        $name .= 'Collection';
-        $fqns = 'Duffleman\\Luno\\Collections\\';
-        $fqcn = $fqns . $name;
-
-        if (class_exists($fqcn)) {
-            return new $fqcn($this);
-        }
+        throw new LunoLibraryException("Unable to find appropriate collection.");
     }
 
 }

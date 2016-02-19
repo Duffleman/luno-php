@@ -10,6 +10,18 @@ $luno = new LunoRequester([
     'timeout' => 10000
 ]);
 
+// Create a Session
+$session = $luno->sessions->create([
+    'id'         => 'USER_ID',
+    'expand'     => 'user',
+    'ip'         => '10.0.0.01',
+    'user_agent' => 'Users_user_agent',
+    'details'    => [
+        'key' => 'value',
+        'no'  => 'arrays',
+    ]
+]);
+
 // Don't forget, this is the session key, not the session ID.
 // Then an array of attributes for the session.
 // Then TRUE or FALSE if you want the entire user object returned too.
