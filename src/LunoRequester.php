@@ -55,7 +55,8 @@ class LunoRequester
                     'accept'     => 'application/json',
                     'user-agent' => 'luno_php/v1'
                 ]
-            ]
+            ],
+            'timeout'  => $this->config['timeout'],
         ]);
         $this->endpoint = '/v' . $this->config['version'];
         $this->overrideConfig($config);
