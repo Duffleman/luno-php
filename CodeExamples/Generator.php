@@ -16,10 +16,14 @@ $users = $luno->users->all();
 $counter = 0;
 foreach ($users as $user) {
 
+    echo($user['name'] . ": \n");
+
     if (array_key_exists('field_3', $user['profile'])) {
         echo("Found 'field_3' in {$user['name']}'s profile!\n");
         echo("It is set to '{$user['profile']['field_3']}'.\n\n");
+        echo("------------\n");
     }
+
 
     $counter++;
 }
