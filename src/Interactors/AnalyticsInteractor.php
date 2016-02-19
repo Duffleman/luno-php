@@ -83,4 +83,9 @@ class AnalyticsInteractor extends BaseInteractor
     {
         return $this->requester->request('GET', static::$endpoint . '/events/list');
     }
+
+    public function timeline(array $options = []): array
+    {
+        return $this->requester->request('GET', static::$endpoint . '/events/timeline', $options);
+    }
 }

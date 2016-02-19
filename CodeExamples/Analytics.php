@@ -14,3 +14,10 @@ $luno = new LunoRequester([
 $user_analytics = $luno->analytics->users();
 
 echo("{$user_analytics['total']} users have signed up.");
+
+$data = $luno->analytics->timeline([
+    'distinct' => false,
+    'group'    => 'week'
+]);
+
+dd($data);
