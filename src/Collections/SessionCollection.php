@@ -21,10 +21,11 @@ class SessionCollection extends BaseCollection
      * Validate a session key, incrementing the access count and setting the last access time.
      *
      * @param string $key
-     * @param array  $params
+     * @param array  $body
      * @param bool   $expand
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
+     * @internal param array $params
      */
     public function access(string $key, array $body = [], bool $expand = false):array
     {
