@@ -14,6 +14,11 @@
       "Duffleman\\Luno\\": "src/"
     }
   },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ]
+  },
   "minimum-stability": "dev",
   "require": {
     "php": ">=7.0.0",
@@ -21,6 +26,7 @@
     "illuminate/support": "^5.2"
   },
   "require-dev": {
-    "symfony/var-dumper": "^3.0"
+    "symfony/var-dumper": "^3.0",
+    "phpunit/phpunit": "^5.2"
   }
 }
