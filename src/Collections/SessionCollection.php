@@ -8,6 +8,7 @@ namespace Duffleman\Luno\Collections;
  * @package Duffleman\Luno\Collections
  */
 use Duffleman\Luno\Traits\CanBeScoped;
+use Generator;
 
 /**
  * Class SessionCollection
@@ -47,6 +48,27 @@ class SessionCollection extends BaseCollection
         }
 
         return $this->requester->request('POST', static::$endpoint . '/access', $params, $body);
+    }
+
+    public function all(): Generator
+    {
+        $user_id = $this->scope['user.id'];
+
+        if ($this->isScoped()) {
+            do {
+                $params = !empty($collection['page']['next']) ? ['from' => $collection['page']['next']['id']] : [];
+                $params['expand'] = 'user';
+                $collection = $this->requester->request('GET', "/users/{$user_id}/sessions", $params)['list'];
+
+                foreach ($collection['list'] as $model) {
+                    yield $model;
+                }
+            } while (!empty($collection['page']['next']));
+
+            return true;
+        }
+
+        return parent::all();
     }
 
     /**
