@@ -3,6 +3,7 @@
 namespace Duffleman\Luno;
 
 use Duffleman\Luno\Exceptions\LunoApiException;
+use Duffleman\Luno\Interactors\AnalyticsInteractor;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -162,6 +163,10 @@ class LunoRequester
      */
     public function __get($name)
     {
+        if ($name === 'analytics') {
+            return new AnalyticsInteractor($this);
+        }
+
         $name = str_singular($name);
         $name = ucwords($name);
         $name .= 'Collection';
