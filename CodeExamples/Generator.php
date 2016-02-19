@@ -12,6 +12,7 @@ $luno = new LunoRequester([
 
 $users = $luno->users->all();
 // dd($users); // Returns the Generator
+// $users has to be looped through.
 
 $counter = 0;
 foreach ($users as $user) {
@@ -27,8 +28,3 @@ foreach ($users as $user) {
 
     $counter++;
 }
-
-/*
- * Seems odd we can loop through every single user to search through their profile...
- * If only we could search through it with some sort of API..... *cough*
- */

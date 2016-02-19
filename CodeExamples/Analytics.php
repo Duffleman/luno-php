@@ -10,11 +10,11 @@ $luno = new LunoRequester([
     'timeout' => 10000
 ]);
 
-// Cycle through the top 100 users.
+// Get the users analytics data.
 $user_analytics = $luno->analytics->users();
-
 echo("{$user_analytics['total']} users have signed up.");
 
+// Grab timeline data for events.
 $data = $luno->analytics->timeline([
     'distinct' => false,
     'group'    => 'week'

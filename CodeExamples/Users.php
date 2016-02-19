@@ -26,3 +26,19 @@ try {
     // Log Something
     // Do something
 }
+
+// Find a specific user.
+$user = $luno->user->find('<USER_ID>');
+
+// Append a key value pair to the users profile.
+$luno->users->append($user_id, [
+    'profile' => [
+        'attribute' => 'value'
+    ]
+]);
+
+// Cycle through the latest 100 users.
+$users = $luno->users->recent();
+foreach ($users as $user) {
+    echo($user->name . "\n");
+}
