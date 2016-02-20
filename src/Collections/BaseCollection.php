@@ -61,13 +61,16 @@ class BaseCollection extends BaseInteractor
     /**
      * Create a user.
      *
-     * @param array $attributes
+     * @param array  $attributes
+     * @param string $expand
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function create(array $attributes): array
+    public function create(array $attributes, string $expand = ''): array
     {
-        return $this->requester->request('POST', static::$endpoint, [], $attributes);
+        $params = compact('expand');
+
+        return $this->requester->request('POST', static::$endpoint, $params, $attributes);
     }
 
     /**

@@ -48,25 +48,4 @@ class SessionCollection extends BaseCollection
 
         return $this->requester->request('POST', static::$endpoint . '/access', $params, $body);
     }
-
-    /**
-     * Create a new session for this user (password not required).
-     *
-     * Quite messy until they change their API endpoints.
-     *
-     * @param array $attributes
-     * @return array
-     * @throws \Duffleman\Luno\Exceptions\LunoApiException
-     */
-    public function create(array $attributes): array
-    {
-        $id = $attributes['id'];
-        $expand = isset($attributes['expand']) ? $attributes['expand'] : null;
-        $params = compact('expand');
-
-        unset($attributes['id']);
-        unset($attributes['expand']);
-
-        return $this->requester->request('POST', "/users/{$id}/sessions", $params, $attributes);
-    }
 }

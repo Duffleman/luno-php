@@ -28,7 +28,7 @@ try {
 }
 
 // Find a specific user.
-$user = $luno->user->find('<USER_ID>');
+$user = $luno->users->find('<USER_ID>');
 
 // Append a key value pair to the users profile.
 $luno->users->append($user_id, [
