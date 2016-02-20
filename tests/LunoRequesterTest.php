@@ -2,7 +2,7 @@
 
 use Duffleman\Luno\LunoRequester;
 
-class LunoRequesterTest extends BaseTestClass
+class LunoRequesterTest extends PHPUnit_Framework_TestCase
 {
 
     public function test_is_instantiable()
