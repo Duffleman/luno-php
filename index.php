@@ -1,14 +1,24 @@
 <?php
 
+use Duffleman\Luno\Exceptions\LunoApiException;
 use Duffleman\Luno\LunoRequester;
-use GuzzleHttp\Client;
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
+
 $luno = new LunoRequester([
-    'key'     => 'YOUR-KEY',
-    'secret'  => 'YOUR-SECRET',
-    'timeout' => 10000
+    'key' => getenv('LUNO_KEY'),
+    'secret' => getenv('LUNO_SECRET'),
+    'timeout' => 10000,
 ]);
 
-echo $luno->request("GET", "/users");
+try {
+    $user = $luno->users->find('usr_jUR5KQWYHvYdKX');
+} catch (LunoApiException $ex) {
+    dd($ex->getLunoCode(), $ex->getLunoExtra());
+
+}
+
+dd($user);
