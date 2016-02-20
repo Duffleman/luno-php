@@ -1,5 +1,6 @@
 <?php
 
+use Duffleman\Luno\Exceptions\LunoApiException;
 use Duffleman\Luno\LunoRequester;
 use Faker\Factory;
 
@@ -23,4 +24,12 @@ $user = $luno->users->create([
     'password' => $faker->password,
 ]);
 
-dd($user);
+try {
+    $luno->users->changePassword($user['id'], 'myPassword');
+} catch(LunoApiException $ex)
+{
+    dump($ex->getLunoCode(), $ex->getLunoExtra());
+}
+dump($user);
+
+$luno->users->destroy($user['id']);

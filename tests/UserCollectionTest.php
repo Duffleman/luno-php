@@ -129,4 +129,42 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($session['session']['user']['id'] === $user['id']);
     }
 
+    public function test_user_can_validate_password()
+    {
+        $details = $this->buildFakeUser();
+        $user = $this->createFakeUser($details);
+
+        $response = $this->luno->users->validatePassword($user['id'], $details['password']);
+
+        $this->assertTrue($response);
+    }
+
+    public function test_user_can_change_password()
+    {
+        $details = $this->buildFakeUser();
+        $user = $this->createFakeUser($details);
+        $this->luno->users->validatePassword($user['id'], $details['password']);
+
+        $new_password = $this->faker->password;
+        $this->luno->users->changePassword($user['id'], $new_password);
+
+        $response = $this->luno->users->validatePassword($user['id'], $new_password);
+
+        $this->assertTrue($response);
+    }
+
+    public function test_user_can_change_password_with_current_password()
+    {
+        $details = $this->buildFakeUser();
+        $user = $this->createFakeUser($details);
+
+        $new_password = $this->faker->password;
+
+        $change_password_response = $this->luno->users->changePassword($user['id'], $new_password, $details['password']);
+        $validate_password_response = $this->luno->users->validatePassword($user['id'], $new_password);
+
+        $this->assertTrue($change_password_response);
+        $this->assertTrue($validate_password_response);
+    }
+
 }
