@@ -13,14 +13,11 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
         $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
         $dotenv->load();
 
-        $dotenv->required('LUNO_KEY');
-        $dotenv->required('LUNO_SECRET');
-
         $this->faker = Faker\Factory::create();
 
         $this->luno = new LunoRequester([
-            'key'     => getenv('LUNO_KEY'),
-            'secret'  => getenv('LUNO_SECRET'),
+            'key' => getenv('LUNO_KEY'),
+            'secret' => getenv('LUNO_SECRET'),
             'timeout' => 10000
         ]);
     }
@@ -32,17 +29,17 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertLessThanOrEqual(100, count($users));
     }
 
-    public function test_user_can_be_created_and_deactivated()
+    public function test_user_can_be_created()
     {
         $user_details = $this->buildFakeUser();
 
         $user = $this->luno->users->create($user_details);
-        $response = $this->luno->users->destroy($user['id']);
 
         $this->assertTrue($user_details['username'] === $user['username']);
         $this->assertTrue($user_details['name'] === $user['name']);
         $this->assertTrue($user_details['email'] === $user['email']);
-        $this->assertTrue($response['success']);
+
+        return $user;
     }
 
     /**
@@ -54,19 +51,24 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
     {
         return [
             'username' => $this->faker->userName,
-            'name'     => $this->faker->name,
-            'email'    => $this->faker->email,
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
             'password' => $this->faker->password,
         ];
     }
 
-    public function test_user_can_be_found_by_its_id()
+    /**
+     * @depends test_user_can_be_created
+     */
+    public function test_user_can_be_found_by_its_id(array $user)
     {
-        $created_user = $this->createFakeUser();
-        $user = $this->luno->users->find($created_user['id']);
-        $this->luno->users->destroy($user['id']);
+        $user_id = $user['id'];
 
-        $this->assertTrue($created_user['id'] === $user['id']);
+        $imported_user = $this->luno->users->find($user_id);
+
+        $this->assertTrue($user_id === $imported_user['id']);
+
+        return $imported_user;
     }
 
     /**
@@ -82,85 +84,94 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
         return $this->luno->users->create($user);
     }
 
-    public function test_user_can_be_updated()
+    /**
+     * @depends test_user_can_be_found_by_its_id
+     * @param string $user_id
+     * @return mixed
+     */
+    public function test_user_can_be_updated(array $user)
     {
-        $created_user = $this->createFakeUser();
-
         $new_name = $this->faker->name;
         $updated_details = [
-            'name'    => $new_name,
+            'name' => $new_name,
             'profile' => [
                 'attribute' => 'value',
             ]
         ];
 
-        $this->luno->users->append($created_user['id'], $updated_details);
-        $updated_user = $this->luno->users->find($created_user['id']);
+        $this->luno->users->append($user['id'], $updated_details);
+        $updated_user = $this->luno->users->find($user['id']);
 
         $this->assertTrue($updated_user['name'] === $new_name);
         $this->assertTrue($updated_user['profile']['attribute'] === 'value');
 
-        return $updated_user['id'];
+        return $updated_user;
     }
 
     /**
      * @depends test_user_can_be_updated
      * @param string $user_id
      */
-    public function test_user_can_be_updated_destructively(string $user_id)
+    public function test_user_can_be_updated_destructively(array $user)
     {
-        $this->luno->users->overwrite($user_id, [
+        $this->luno->users->overwrite($user['id'], [
             'profile' => (object)[]
         ]);
-        $user = $this->luno->users->find($user_id);
-        $this->luno->users->destroy($user['id']);
+        $fresh_user = $this->luno->users->find($user['id']);
 
-        $this->assertEmpty($user['profile']);
+        $this->assertEmpty($fresh_user['profile']);
+
+        return $fresh_user;
     }
 
-    public function test_user_can_login()
+    /**
+     * @depends test_user_can_validate_password
+     */
+    public function test_user_can_login(array $user)
     {
-        $details = $this->buildFakeUser();
-        $user = $this->createFakeUser($details);
+        $this->luno->users->changePassword($user['id'], 'myNewPassword');
 
-        $session = $this->luno->users->login($details['username'], $details['password']);
-        $this->luno->users->destroy($user['id']);
+        $session = $this->luno->users->login($user['username'], 'myNewPassword');
 
         $this->assertTrue($session['session']['user']['id'] === $user['id']);
+
+        return $session['user'];
     }
 
-    public function test_user_can_validate_password()
+    /**
+     * @depends test_user_can_change_password_with_current_password
+     */
+    public function test_user_can_validate_password(array $user)
     {
-        $details = $this->buildFakeUser();
-        $user = $this->createFakeUser($details);
-
-        $response = $this->luno->users->validatePassword($user['id'], $details['password']);
+        $response = $this->luno->users->validatePassword($user['id'], 'myNewPassword');
 
         $this->assertTrue($response);
+
+        return $user;
     }
 
-    public function test_user_can_change_password()
+    /**
+     * @depends test_user_can_be_updated_destructively
+     */
+    public function test_user_can_change_password(array $user)
     {
-        $details = $this->buildFakeUser();
-        $user = $this->createFakeUser($details);
-        $this->luno->users->validatePassword($user['id'], $details['password']);
+        $this->luno->users->changePassword($user['id'], 'myPassword');
 
-        $new_password = $this->faker->password;
-        $this->luno->users->changePassword($user['id'], $new_password);
-
-        $response = $this->luno->users->validatePassword($user['id'], $new_password);
+        $response = $this->luno->users->validatePassword($user['id'], 'myPassword');
 
         $this->assertTrue($response);
+
+        return $user;
     }
 
-    public function test_user_can_change_password_with_current_password()
+    /**
+     * @depends test_user_can_change_password
+     */
+    public function test_user_can_change_password_with_current_password(array $user)
     {
-        $details = $this->buildFakeUser();
-        $user = $this->createFakeUser($details);
+        $new_password = 'myNewPassword';
 
-        $new_password = $this->faker->password;
-
-        $change_password_response = $this->luno->users->changePassword($user['id'], $new_password, $details['password']);
+        $change_password_response = $this->luno->users->changePassword($user['id'], $new_password, 'myPassword');
         $validate_password_response = $this->luno->users->validatePassword($user['id'], $new_password);
 
         $this->assertTrue($change_password_response);

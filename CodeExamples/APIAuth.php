@@ -20,8 +20,8 @@ $api_key = $luno->api->create([
     ]
 ]);
 
-// You cannot do this. This does not work.
-$keys = $luno->api->recent(); // BAD BAD BAD.
+// You cannot do this. This does work (now).
+$keys = $luno->api->recent();
 
 // Get the latest 100 sessions from this single user.
 // This DOES work.

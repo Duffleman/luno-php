@@ -168,7 +168,7 @@ class LunoRequester
      */
     private function buildTimestamp()
     {
-        return date('Y-m-d\TH:i:s.000\Z');
+        return date('c');
     }
 
     /**
