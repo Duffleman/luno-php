@@ -133,12 +133,17 @@ class BaseCollection extends BaseInteractor
      * Destroy a user.
      *
      * @param string $id
-     * @return array
+     * @return bool
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function destroy(string $id): array
-
+    public function destroy(string $id): bool
     {
-        return $this->requester->request('DELETE', static::$endpoint . '/' . $id);
+        $response = $this->requester->request('DELETE', static::$endpoint . '/' . $id);
+
+        if (isset($response['success']) && $response['success'] === true) {
+            return true;
+        }
+
+        return false;
     }
 }
