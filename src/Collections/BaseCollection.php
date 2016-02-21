@@ -66,9 +66,12 @@ class BaseCollection extends BaseInteractor
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function create(array $attributes, string $expand = ''): array
+    public function create(array $attributes = [], string $expand = ''): array
     {
-        $params = compact('expand');
+        $params = [];
+        if (!empty($expand)) {
+            $params = compact('expand');
+        }
 
         return $this->requester->request('POST', static::$endpoint, $params, $attributes);
     }

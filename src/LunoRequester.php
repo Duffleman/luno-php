@@ -120,7 +120,7 @@ class LunoRequester
         $sign = "{$method}:{$route}?{$query_string}";
 
         // If we have a body, append to the sign string.
-        if ($body) {
+        if (!empty($body)) {
             $sign .= ":" . json_encode($body);
         }
 
@@ -129,28 +129,22 @@ class LunoRequester
         // Append the verified sign key to the params.
         $params['sign'] = $verified_sign;
 
+        $headers = [];
+        $send_body = false;
+        if (!empty($body)) {
+            $headers = [
+                'content-type' => 'application/json',
+            ];
+            $send_body = json_encode($body);
+        }
+
         // Try and send the request.
         try {
-            switch ($method) {
-                case 'DELETE':
-                case 'GET':
-                    $response = $this->guzzle->request($method, $this->config['host'] . $route, [
-                        'body'  => json_encode($body) ?: null,
-                        'query' => $params,
-                    ]);
-                    break;
-                case 'PATCH':
-                case 'PUT':
-                case 'POST':
-                    $response = $this->guzzle->request($method, $this->config['host'] . $route, [
-                        'body'    => json_encode($body) ?: null,
-                        'headers' => [
-                            'content-type' => 'application/json',
-                        ],
-                        'query'   => $params,
-                    ]);
-                    break;
-            }
+            $response = $this->guzzle->request($method, $this->config['host'] . $route, [
+                'body'    => $send_body,
+                'headers' => $headers,
+                'query'   => $params,
+            ]);
         } catch (ClientException $exception) {
             $rawResponse = json_decode((string)$exception->getResponse()->getBody(), true);
             throw new LunoApiException($rawResponse);
