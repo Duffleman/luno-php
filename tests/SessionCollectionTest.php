@@ -101,6 +101,38 @@ class SessionCollectionTest extends PHPUnit_Framework_TestCase
     /**
      * @return array
      */
+    public function test_a_session_be_retrieved_for_a_user_using_generators()
+    {
+        $user = self::$luno->users->create([
+            'username' => self::$faker->userName,
+            'name'     => self::$faker->name,
+            'password' => self::$faker->password,
+            'email'    => self::$faker->email,
+        ]);
+
+        $build = 5;
+
+        for ($i = 0; $i < $build; $i++) {
+            self::$luno->sessions->create([
+                'user_id' => $user['id'],
+            ]);
+        }
+
+        $sessions = self::$luno->sessions->all([
+            'user_id' => $user['id'],
+            'expand'  => 'user',
+        ]);
+
+        foreach ($sessions as $iterator_session) {
+            $this->assertTrue($iterator_session['user']['id'] === $user['id']);
+        }
+
+        self::$luno->users->destroy($user['id']);
+    }
+
+    /**
+     * @return array
+     */
     public function test_a_session_be_retrieved_for_a_user()
     {
         $user = self::$luno->users->create([
