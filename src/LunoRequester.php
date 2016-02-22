@@ -174,33 +174,9 @@ class LunoRequester
      */
     private function buildBody(array $body): string
     {
-        $body = $this->addSlashes($body);
         $body = $this->fixEmptyArrays($body);
 
-        return utf8_encode(stripslashes(json_encode($body)));
-    }
-
-    /**
-     * Adds slashes to the individual elements inside body.
-     * Because PHP can't escape crap.
-     *
-     * @param array $body
-     * @return array
-     */
-    private function addSlashes(array $body): array
-    {
-        $new_array = [];
-        foreach ($body as $key => $value) {
-            if (is_null($value)) {
-                $new_array[$key] = null;
-            } elseif (is_array($value)) {
-                $new_array[$key] = $this->addSlashes($value);
-            } else {
-                $new_array[$key] = addslashes($value);
-            }
-        }
-
-        return $new_array;
+        return utf8_encode(json_encode($body, JSON_UNESCAPED_SLASHES));
     }
 
     /**

@@ -146,4 +146,59 @@ class SessionCollectionTest extends PHPUnit_Framework_TestCase
 
         return $fresh_session;
     }
+
+    /**
+     * @depends test_a_session_can_be_updated_keeping_old_details
+     * @param array $session
+     * @return array
+     */
+    public function test_a_session_can_be_updated_overriding_old_details(array $session)
+    {
+        $new_ip = self::$faker->ipv6;
+
+        $new_body = [
+            'ip'      => $new_ip,
+            'details' => [
+                'field' => 'value'
+            ],
+        ];
+
+        $expected_details = [
+            'field' => 'value',
+        ];
+
+        $response = self::$luno->sessions->overwrite($session['id'], $new_body);
+        $fresh_session = self::$luno->sessions->find($session['id']);
+
+        $this->assertTrue($response, "Could not append the new body.");
+        $this->assertTrue($fresh_session['ip'] === $new_ip, "IP does not match the new IP.");
+        $this->assertTrue($fresh_session['details'] === $expected_details, "The details have not been updated.");
+
+        return $fresh_session;
+    }
+
+    /**
+     * @depends test_a_session_can_be_updated_overriding_old_details
+     * @param array $session
+     */
+    public function test_a_session_can_be_accessed(array $session)
+    {
+        $response = self::$luno->sessions->access($session['key']);
+
+        $this->assertTrue($response['type'] === 'session');
+        $this->assertTrue($response['id'] === $session['id']);
+
+        return $response;
+    }
+
+    /**
+     * @depends test_a_session_can_be_accessed
+     * @param array $session
+     */
+    public function test_a_session_can_be_destroyed(array $session)
+    {
+        $response = self::$luno->sessions->destroy($session['id']);
+
+        $this->assertTrue($response);
+    }
 }

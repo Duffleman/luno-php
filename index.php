@@ -3,6 +3,7 @@
 use Duffleman\Luno\Exceptions\LunoApiException;
 use Duffleman\Luno\LunoRequester;
 use Faker\Factory;
+use GuzzleHttp\Client;
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
@@ -13,23 +14,24 @@ $luno = new LunoRequester([
     'key'     => getenv('LUNO_KEY'),
     'secret'  => getenv('LUNO_SECRET'),
     'timeout' => 10000,
-]);
+], new Client([
+    'proxy'  => 'localhost:8888',
+    'verify' => false,
+]));
 
 $faker = Factory::create();
 
-$user = $luno->users->create([
-    'username' => $faker->userName,
-    'name'     => $faker->name,
-    'email'    => $faker->email,
-    'password' => $faker->password,
-]);
+$user = $luno->users->find('usr_HvgS9pBTmq3C7c');
 
 try {
-    $luno->users->changePassword($user['id'], 'myPassword');
-} catch(LunoApiException $ex)
-{
-    dump($ex->getLunoCode(), $ex->getLunoExtra());
-}
-dump($user);
+    $ip = $faker->ipv4;
+    $agent = $faker->userAgent;
 
-$luno->users->destroy($user['id']);
+    $session = $luno->sessions->create([
+        'ip'         => $ip,
+        'user_agent' => $agent,
+    ]);
+} catch (LunoApiException $ex) {
+    echo("\n------------------------------------\n");
+    dd($ex->getLunoCode(), $ex->getLunoExtra());
+}
