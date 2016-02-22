@@ -1,7 +1,6 @@
 <?php
 
 use Duffleman\Luno\LunoRequester;
-use GuzzleHttp\Client;
 
 class SessionCollectionTest extends PHPUnit_Framework_TestCase
 {
@@ -97,6 +96,39 @@ class SessionCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($session['user']['id'] === $user_id, "User ID is wrong for the generated session.");
 
         return $session;
+    }
+
+    /**
+     * @return array
+     */
+    public function test_a_session_be_retrieved_for_a_user()
+    {
+        $user = self::$luno->users->create([
+            'username' => self::$faker->userName,
+            'name'     => self::$faker->name,
+            'password' => self::$faker->password,
+            'email'    => self::$faker->email,
+        ]);
+
+        $build = 5;
+
+        for ($i = 0; $i < $build; $i++) {
+            self::$luno->sessions->create([
+                'user_id' => $user['id'],
+            ]);
+        }
+
+        $sessions = self::$luno->sessions->recent(null, null, null, [
+            'user_id' => $user['id']
+        ]);
+
+        $this->assertCount(5, $sessions);
+
+        foreach ($sessions as $iterator_session) {
+            $this->assertTrue($iterator_session['user']['id'] === $user['id']);
+        }
+
+        self::$luno->users->destroy($user['id']);
     }
 
     /**

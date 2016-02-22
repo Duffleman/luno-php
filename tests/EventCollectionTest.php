@@ -79,6 +79,37 @@ class EventCollectionTest extends PHPUnit_Framework_TestCase
         return $event;
     }
 
+    public function test_events_can_be_retrieved_by_user_id()
+    {
+        $user = self::$luno->users->create([
+            'username' => self::$faker->userName,
+            'name'     => self::$faker->name,
+            'password' => self::$faker->password,
+            'email'    => self::$faker->email,
+        ]);
+
+        $build = 5;
+
+        for ($i = 0; $i < $build; $i++) {
+            self::$luno->events->create([
+                'name'    => self::$faker->sentence,
+                'user_id' => $user['id'],
+            ]);
+        }
+
+        $events = self::$luno->events->recent(5, null, null, [
+            'user_id' => $user['id']
+        ]);
+
+        $this->assertCount(5, $events);
+
+        foreach ($events as $iterator_event) {
+            $this->assertTrue($iterator_event['user']['id'] === $user['id']);
+        }
+
+        self::$luno->users->destroy($user['id']);
+    }
+
     /**
      * @depends test_an_event_can_be_created
      * @param array $event
