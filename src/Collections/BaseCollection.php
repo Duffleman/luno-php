@@ -94,9 +94,9 @@ class BaseCollection extends BaseInteractor
      * @param string $id
      * @param array  $body
      * @param bool   $auto_name
-     * @return array
+     * @return bool
      */
-    public function overwrite(string $id, array $body, $auto_name = true): array
+    public function overwrite(string $id, array $body, $auto_name = true): bool
     {
         return $this->update('PUT', $id, $body, $auto_name);
     }
@@ -109,14 +109,24 @@ class BaseCollection extends BaseInteractor
      * @param string $id
      * @param array  $body
      * @param bool   $auto_name
-     * @return array
+     * @return bool
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    private function update(string $method, string $id, array $body, $auto_name = true): array
+    private function update(string $method, string $id, array $body, $auto_name = true): bool
     {
-        $params = ['auto_name' => $auto_name];
+        $params = [];
 
-        return $this->requester->request($method, static::$endpoint . '/' . $id, $params, $body);
+        if (static::$endpoint === '/users') {
+            $params = ['auto_name' => $auto_name];
+        }
+
+        $response = $this->requester->request($method, static::$endpoint . '/' . $id, $params, $body);
+
+        if (isset($response['success']) && $response['success'] === true) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -125,9 +135,9 @@ class BaseCollection extends BaseInteractor
      * @param string $id
      * @param array  $body
      * @param bool   $auto_name
-     * @return array
+     * @return bool
      */
-    public function append(string $id, array $body, $auto_name = true): array
+    public function append(string $id, array $body, $auto_name = true): bool
     {
         return $this->update('PATCH', $id, $body, $auto_name);
     }

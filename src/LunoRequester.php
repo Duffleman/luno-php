@@ -114,6 +114,7 @@ class LunoRequester
 
         // Sort params alphabetically by key.
         ksort($params);
+        ksort($body);
         // Build query string.
         $query_string = http_build_query($params);
         // Build sign string.
@@ -121,7 +122,7 @@ class LunoRequester
 
         // If we have a body, append to the sign string.
         if (!empty($body)) {
-            $sign .= ":" . json_encode($body);
+            $sign .= ":" . utf8_encode(stripslashes(json_encode($body)));
         }
 
         // Build the verified sign string.
@@ -135,7 +136,7 @@ class LunoRequester
             $headers = [
                 'content-type' => 'application/json',
             ];
-            $send_body = json_encode($body);
+            $send_body = utf8_encode(stripslashes(json_encode($body)));
         }
 
         // Try and send the request.
