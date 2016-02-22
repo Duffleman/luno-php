@@ -59,4 +59,13 @@ class AnalyticsInteractorTest extends PHPUnit_Framework_TestCase
             $this->assertArrayHasKey('url', $event);
         }
     }
+
+    public function test_timeline()
+    {
+        $timeline = self::$luno->analytics->timeline();
+
+        $this->assertTrue(is_array($timeline));
+        $this->assertArrayHasKey('timeline', $timeline);
+        $this->assertArrayHasKey('total', $timeline);
+    }
 }
