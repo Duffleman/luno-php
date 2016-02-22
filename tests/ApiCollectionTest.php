@@ -29,7 +29,7 @@ class ApiCollectionTest extends PHPUnit_Framework_TestCase
             'password' => self::$faker->password,
         ]);
     }
-
+    
     public static function tearDownAfterClass()
     {
         self::$luno->users->destroy(self::$user['id']);
