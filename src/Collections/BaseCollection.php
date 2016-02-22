@@ -23,13 +23,15 @@ class BaseCollection extends BaseInteractor
     /**
      * Get all resources attached to this endpoint.
      *
+     * @param array $params
      * @return Generator
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function all(): Generator
+    public function all(array $given_params = []): Generator
     {
         do {
             $params = !empty($collection['page']['next']) ? ['from' => $collection['page']['next']['id']] : [];
+            $params = array_merge($params, $given_params);
 
             $collection = $this->requester->request('GET', static::$endpoint, $params);
             foreach ($collection['list'] as $model) {
