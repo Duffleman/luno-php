@@ -1,6 +1,5 @@
 <?php
 
-use Duffleman\Luno\Exceptions\LunoApiException;
 use Duffleman\Luno\LunoRequester;
 use Faker\Factory;
 
@@ -17,13 +16,8 @@ $luno = new LunoRequester([
 
 $faker = Factory::create();
 
-$user = $luno->users->find('usr_HvgS9pBTmq3C7c');
+/**
+ * Screw around here :P
+ */
 
-try {
-    $events = $luno->events->recent();
-
-    dump($events);
-} catch (LunoApiException $ex) {
-    echo("\n------------------------------------\n");
-    dd($ex->getLunoCode(), $ex->getLunoExtra());
-}
+$users = $luno->users->all();
