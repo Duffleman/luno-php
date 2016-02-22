@@ -47,7 +47,7 @@ class UserCollection extends BaseCollection
      * @return bool
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function changePassword(string $id, string $password, $current_password = null): bool
+    public function changePassword(string $id, string $password, string $current_password = null): bool
     {
         $body = compact('password', 'current_password');
 

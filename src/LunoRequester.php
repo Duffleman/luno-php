@@ -122,7 +122,8 @@ class LunoRequester
 
         // If we have a body, append to the sign string.
         if (!empty($body)) {
-            $sign .= ":" . utf8_encode(stripslashes(json_encode($body)));
+            $body = $this->buildBody($body);
+            $sign .= ":" . $body;
         }
 
         // Build the verified sign string.
@@ -136,7 +137,7 @@ class LunoRequester
             $headers = [
                 'content-type' => 'application/json',
             ];
-            $send_body = utf8_encode(stripslashes(json_encode($body)));
+            $send_body = $body;
         }
 
         // Try and send the request.
@@ -146,14 +147,13 @@ class LunoRequester
                 'headers' => $headers,
                 'query'   => $params,
             ]);
+            $jsonResponse = (string)$response->getBody();
+
+            return json_decode($jsonResponse, true);
         } catch (ClientException $exception) {
             $rawResponse = json_decode((string)$exception->getResponse()->getBody(), true);
             throw new LunoApiException($rawResponse);
         }
-
-        $jsonResponse = (string)$response->getBody();
-
-        return json_decode($jsonResponse, true);
     }
 
     /**
@@ -164,6 +164,62 @@ class LunoRequester
     private function buildTimestamp()
     {
         return date('c');
+    }
+
+    /**
+     * Build the body string from an array.
+     *
+     * @param array $body
+     * @return string
+     */
+    private function buildBody(array $body): string
+    {
+        $body = $this->addSlashes($body);
+        $body = $this->fixEmptyArrays($body);
+
+        return utf8_encode(stripslashes(json_encode($body)));
+    }
+
+    /**
+     * Adds slashes to the individual elements inside body.
+     * Because PHP can't escape crap.
+     *
+     * @param array $body
+     * @return array
+     */
+    private function addSlashes(array $body): array
+    {
+        $new_array = [];
+        foreach ($body as $key => $value) {
+            if (is_null($value)) {
+                $new_array[$key] = null;
+            } elseif (is_array($value)) {
+                $new_array[$key] = $this->addSlashes($value);
+            } else {
+                $new_array[$key] = addslashes($value);
+            }
+        }
+
+        return $new_array;
+    }
+
+    /**
+     * Turns the empty arrays into objects so when JSON encoded it shows properly.
+     *
+     * @param array $body
+     * @return array
+     */
+    private function fixEmptyArrays(array $body): array
+    {
+        foreach ($body as $key => $value) {
+            if (is_null($value)) {
+                $body[$key] = null;
+            } elseif (empty($value)) {
+                $body[$key] = (object)$value;
+            }
+        }
+
+        return $body;
     }
 
     /**
@@ -184,5 +240,4 @@ class LunoRequester
 
         throw new LunoLibraryException("Unable to find appropriate collection.");
     }
-
 }

@@ -105,7 +105,7 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
     public function test_user_can_be_updated_destructively(array $user)
     {
         $this->luno->users->overwrite($user['id'], [
-            'profile' => (object)[]
+            'profile' => []
         ]);
         $fresh_user = $this->luno->users->find($user['id']);
 
