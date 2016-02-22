@@ -7,17 +7,8 @@ namespace Duffleman\Luno\Collections;
  *
  * @package Duffleman\Luno\Collections
  */
-use Duffleman\Luno\Traits\CanBeScoped;
-
-/**
- * Class SessionCollection
- *
- * @package Duffleman\Luno\Collections
- */
 class SessionCollection extends BaseCollection
 {
-
-    use CanBeScoped;
 
     /**
      * Endpoint for this model.

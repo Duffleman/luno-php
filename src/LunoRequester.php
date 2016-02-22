@@ -116,7 +116,8 @@ class LunoRequester
         ksort($params);
         ksort($body);
         // Build query string.
-        $query_string = http_build_query($params);
+        $query_string = http_build_query($params, null, '&', PHP_QUERY_RFC3986);
+
         // Build sign string.
         $sign = "{$method}:{$route}?{$query_string}";
 

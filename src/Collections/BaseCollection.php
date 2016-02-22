@@ -44,16 +44,24 @@ class BaseCollection extends BaseInteractor
      * @param int|null    $limit
      * @param string|null $from
      * @param string|null $to
+     * @param array       $additional_params
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function recent(int $limit = null, string $from = null, string $to = null): array
+    public function recent(
+        int $limit = null,
+        string $from = null,
+        string $to = null,
+        array $additional_params = []
+    ): array
     {
         $params = [
             'limit' => $limit,
             'from'  => $from,
             'to'    => $to,
         ];
+
+        $params = array_merge($params, $additional_params);
 
         return $this->requester->request('GET', static::$endpoint, $params)['list'];
     }
