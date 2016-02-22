@@ -97,7 +97,8 @@ class EventCollectionTest extends PHPUnit_Framework_TestCase
             ]);
         }
 
-        $events = self::$luno->events->recent(5, null, null, [
+        $events = self::$luno->events->recent([
+            'limit'   => 5,
             'user_id' => $user['id']
         ]);
 

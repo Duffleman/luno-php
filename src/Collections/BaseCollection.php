@@ -23,9 +23,10 @@ class BaseCollection extends BaseInteractor
     /**
      * Get all resources attached to this endpoint.
      *
-     * @param array $params
+     * @param array $given_params
      * @return Generator
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
+     * @internal array $params
      */
     public function all(array $given_params = []): Generator
     {
@@ -43,28 +44,12 @@ class BaseCollection extends BaseInteractor
     }
 
     /**
-     * @param int|null    $limit
-     * @param string|null $from
-     * @param string|null $to
-     * @param array       $additional_params
+     * @param array $params
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function recent(
-        int $limit = null,
-        string $from = null,
-        string $to = null,
-        array $additional_params = []
-    ): array
+    public function recent(array $params = []): array
     {
-        $params = [
-            'limit' => $limit,
-            'from'  => $from,
-            'to'    => $to,
-        ];
-
-        $params = array_merge($params, $additional_params);
-
         return $this->requester->request('GET', static::$endpoint, $params)['list'];
     }
 

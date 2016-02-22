@@ -150,7 +150,7 @@ class SessionCollectionTest extends PHPUnit_Framework_TestCase
             ]);
         }
 
-        $sessions = self::$luno->sessions->recent(null, null, null, [
+        $sessions = self::$luno->sessions->recent([
             'user_id' => $user['id']
         ]);
 

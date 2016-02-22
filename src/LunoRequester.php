@@ -25,7 +25,7 @@ class LunoRequester
      * @var array
      */
     private static $classmap = [
-        'api'       => ApiCollection::class,
+        'apikeys'   => ApiCollection::class,
         'analytics' => AnalyticsInteractor::class,
         'users'     => UserCollection::class,
         'sessions'  => SessionCollection::class,
