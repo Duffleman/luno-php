@@ -38,10 +38,7 @@ class SessionCollectionTest extends PHPUnit_Framework_TestCase
             'key'     => getenv('LUNO_KEY'),
             'secret'  => getenv('LUNO_SECRET'),
             'timeout' => 10000
-        ], new Client([
-            'proxy'  => 'localhost:8888',
-            'verify' => false,
-        ]));
+        ]);
 
         self::$user = self::$luno->users->create([
             'username' => self::$faker->userName,
