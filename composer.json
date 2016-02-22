@@ -30,5 +30,5 @@
     "symfony/var-dumper": "^3.0",
     "phpunit/phpunit": "^5.2",
     "fzaninotto/faker": "^1.5"
-  }
+  },
 }
