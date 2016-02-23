@@ -9,7 +9,7 @@ class ApiCollectionTest extends PHPUnit_Framework_TestCase
     protected static $faker;
     protected static $user;
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
         $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
         $dotenv->load();
@@ -29,7 +29,7 @@ class ApiCollectionTest extends PHPUnit_Framework_TestCase
             'password' => self::$faker->password,
         ]);
     }
-    
+
     public static function tearDownAfterClass()
     {
         self::$luno->users->destroy(self::$user['id']);
@@ -143,7 +143,7 @@ class ApiCollectionTest extends PHPUnit_Framework_TestCase
             'user_id' => self::$user['id'],
         ]);
 
-        $this->assertCount($build, $keys);
+        $this->assertCount(($build + 1), $keys);
 
         foreach ($keys as $key) {
             $this->assertTrue($key['user']['id'] === self::$user['id']);

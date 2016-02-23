@@ -26,7 +26,7 @@ class EventCollectionTest extends PHPUnit_Framework_TestCase
      */
     protected static $user;
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
         $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
         $dotenv->load();

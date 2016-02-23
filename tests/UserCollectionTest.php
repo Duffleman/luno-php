@@ -5,17 +5,17 @@ use Duffleman\Luno\LunoRequester;
 class UserCollectionTest extends PHPUnit_Framework_TestCase
 {
 
-    protected $luno;
-    protected $faker;
+    protected static $luno;
+    protected static $faker;
 
-    public function setUp()
+    public static function setUpBeforeClass()
     {
         $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
         $dotenv->load();
 
-        $this->faker = Faker\Factory::create();
+        self::$faker = Faker\Factory::create();
 
-        $this->luno = new LunoRequester([
+        self::$luno = new LunoRequester([
             'key'     => getenv('LUNO_KEY'),
             'secret'  => getenv('LUNO_SECRET'),
             'timeout' => 10000
@@ -24,7 +24,7 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
 
     public function test_can_list_recent_100_users()
     {
-        $users = $this->luno->users->recent();
+        $users = self::$luno->users->recent();
 
         $this->assertLessThanOrEqual(100, count($users));
     }
@@ -33,7 +33,7 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
     {
         $user_details = $this->buildFakeUser();
 
-        $user = $this->luno->users->create($user_details);
+        $user = self::$luno->users->create($user_details);
 
         $this->assertTrue($user_details['username'] === $user['username']);
         $this->assertTrue($user_details['name'] === $user['name']);
@@ -50,10 +50,10 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
     private function buildFakeUser(): array
     {
         return [
-            'username' => $this->faker->userName,
-            'name'     => $this->faker->name,
-            'email'    => $this->faker->email,
-            'password' => $this->faker->password,
+            'username' => self::$faker->userName,
+            'name'     => self::$faker->name,
+            'email'    => self::$faker->email,
+            'password' => self::$faker->password,
         ];
     }
 
@@ -66,7 +66,7 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
     {
         $user_id = $user['id'];
 
-        $imported_user = $this->luno->users->find($user_id);
+        $imported_user = self::$luno->users->find($user_id);
 
         $this->assertTrue($user_id === $imported_user['id']);
 
@@ -80,7 +80,7 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function test_user_can_be_updated(array $user)
     {
-        $new_name = $this->faker->name;
+        $new_name = self::$faker->name;
         $updated_details = [
             'name'    => $new_name,
             'profile' => [
@@ -88,8 +88,8 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
             ]
         ];
 
-        $this->luno->users->append($user['id'], $updated_details);
-        $updated_user = $this->luno->users->find($user['id']);
+        self::$luno->users->append($user['id'], $updated_details);
+        $updated_user = self::$luno->users->find($user['id']);
 
         $this->assertTrue($updated_user['name'] === $new_name);
         $this->assertTrue($updated_user['profile']['attribute'] === 'value');
@@ -104,10 +104,10 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function test_user_can_be_updated_destructively(array $user)
     {
-        $this->luno->users->overwrite($user['id'], [
+        self::$luno->users->overwrite($user['id'], [
             'profile' => []
         ]);
-        $fresh_user = $this->luno->users->find($user['id']);
+        $fresh_user = self::$luno->users->find($user['id']);
 
         $this->assertEmpty($fresh_user['profile']);
 
@@ -121,9 +121,9 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function test_user_can_change_password(array $user)
     {
-        $this->luno->users->changePassword($user['id'], 'myPassword');
+        self::$luno->users->changePassword($user['id'], 'myPassword');
 
-        $response = $this->luno->users->validatePassword($user['id'], 'myPassword');
+        $response = self::$luno->users->validatePassword($user['id'], 'myPassword');
 
         $this->assertTrue($response);
 
@@ -139,8 +139,8 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
     {
         $new_password = 'myNewPassword';
 
-        $change_password_response = $this->luno->users->changePassword($user['id'], $new_password, 'myPassword');
-        $validate_password_response = $this->luno->users->validatePassword($user['id'], $new_password);
+        $change_password_response = self::$luno->users->changePassword($user['id'], $new_password, 'myPassword');
+        $validate_password_response = self::$luno->users->validatePassword($user['id'], $new_password);
 
         $this->assertTrue($change_password_response);
         $this->assertTrue($validate_password_response);
@@ -155,7 +155,7 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function test_user_can_validate_password(array $user)
     {
-        $response = $this->luno->users->validatePassword($user['id'], 'myNewPassword');
+        $response = self::$luno->users->validatePassword($user['id'], 'myNewPassword');
 
         $this->assertTrue($response);
 
@@ -169,9 +169,9 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function test_user_can_login(array $user)
     {
-        $this->luno->users->changePassword($user['id'], 'myNewPassword');
+        self::$luno->users->changePassword($user['id'], 'myNewPassword');
 
-        $session = $this->luno->users->login($user['username'], 'myNewPassword');
+        $session = self::$luno->users->login($user['username'], 'myNewPassword');
 
         $this->assertTrue($session['session']['user']['id'] === $user['id']);
 
@@ -184,9 +184,9 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
      */
     public function test_user_can_be_deactivated(array $user)
     {
-        $response = $this->luno->users->destroy($user['id']);
+        $response = self::$luno->users->destroy($user['id']);
 
-        $user = $this->luno->users->find($user['id']);
+        $user = self::$luno->users->find($user['id']);
 
         $this->assertNotNull($user['closed']);
         $this->assertTrue($response);
