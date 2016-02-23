@@ -12,4 +12,14 @@ class LunoRequesterTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Duffleman\\Luno\\LunoRequester', $luno);
     }
 
+    /**
+     * @expectedException Duffleman\Luno\Exceptions\LunoLibraryException
+     */
+    public function test_cannot_send_requests_without_key_and_secret_set()
+    {
+        $luno = new LunoRequester();
+
+        $users = $luno->users->recent();
+    }
+
 }

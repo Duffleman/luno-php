@@ -1,13 +1,14 @@
 language: php
 php:
-  - 7.0
-
+- 7.0
 before_script:
-- "mkdir -p ~/.composer"
+- mkdir -p ~/.composer
 - cp .travis.composer.config.json ~/.composer/config.json
 - composer self-update
 - composer install --no-interaction --prefer-source
-
 sudo: false
-
+env:
+  global:
+  - secure: akB5kmU1wI+zdQ2VnGKg3rCiojlBXKowoQnZOYOC6TpWbrr9UaDWgRuCDH7Nohfh9sDgsoPy9P8CifdVTD2eUsTwisFaMzhnZgCXQHAL2dAemzwTx5rZdZvW5I7Z1bJwjBs8+/F4atX0LSxE12UUIMd142H+IdPbaC/shlAQkv8dCRG14wRulstbUhkWVzTvfmMOgQU8C9iRx8+yzIk9AampF5ZHR0hQkHc7vBnCRkxPcNRrmd4TxParypJRbCPHnItEHgqJEzeX+lgIMcMEMjvGcDE+DaK8Kv0yrVzhFy/XSfjzPZzUUUizCIW/DbGXUiUS5pzJUd3qKnG5la/zbmjQ2fMTfKIAIyEiQX+CnuiDhuM5Q3fWGiCv7F0xHcjKiOyM5smpKLuL5kJhPzKbUWRLqw+AfiFR0iG7tpR2/ionxbvr1toPhPfF0BGGgTEfT1s/p9ipPuH9If7Nk4tTTeBwl/rRrvnb/fHfgmC1QG8K/lYEW/AclfKtn1Qzx8Emk1TcfGvMv13WQ4ATA/JDl493RZu9yhgD10/1ZI170OWU43dhUHVVdbwcCLptC9efT4iU1lBbDL1oWS3uVWQXVOHvPzD5Y3EaXYBkY5K6+wWpgE4bOVHWx8CxH9X97QOGz0o2KPEpytLxLfTrLDI2Nkr829lfwpc+IHa9LQbv1EA=
+  - secure: RwnSwultSDk8k1ZTs5gx8apHrO/eDANyRavQCr5PtMBdYGV+CPo5YKKw7wWgHNpug86RanMSztRUB6qdn9mYMJLn57fMPiOohBzTDDk8ERMuZiKBmnXZibsZuC/yrV2xNwhPecaHWTm4HNsCBnyOC7KCYch5dK6IfNLL2gHVotPsonjiaaiSRcneErI8a3JsOytvc3bXxfB3h4KfDsAScRuL9l6IwD5ymMdKHDc6hzaP2et+7L1AP6eYROIr1DmvJT3D8CTMRBEk5c1+9y3JFfyQ5aAfMTPBp/3/RWf6AZVv3oGw9x2JaPwvg2G3Cf4US//B5bRpcEgIS0kWzL0lrxheHXm5CQc05gAx7boO55JEXk6jiiaYqACIuXlZEuUJn9DFXYH82oPX+nwp7yVNwefjcBmi8U3C3O/PqY3r1GoyGAgbSpR6y2VT3+1BL2vt6jcMgSO7M0fybat3Gx8116Y/FkMd4fT/rxsa9vvNYiLFrVAi1S/gRVh2OfgOCcGXIHe2u9xMBIWT/xYRpn4D0uV7I5CvxazX6d2f4aNCh9R6v28KKptjvQd7CYDhET117spPIR75csrp5X5uoDn8+dSKwr3mdFJwkoJiSEUhP0f791UqH1ZFdliKvJuZcrON4Btc9pGKNqDN+4JZ6vfXc5Ui8LM2Zg3E4i10NMd0mgA=
 script: vendor/bin/phpunit

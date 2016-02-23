@@ -105,6 +105,8 @@ class LunoRequester
      */
     public function request(string $method, string $route, array $params = [], array $body = [])
     {
+        $this->preventBadRequest();
+
         // Build up required params.
         $params['key'] = $this->config['key'];
         $params['timestamp'] = $this->buildTimestamp();
@@ -154,6 +156,18 @@ class LunoRequester
         } catch (ClientException $exception) {
             $rawResponse = json_decode((string)$exception->getResponse()->getBody(), true);
             throw new LunoApiException($rawResponse);
+        }
+    }
+
+    /**
+     * Prevents bad requests being sent.
+     *
+     * @throws LunoLibraryException
+     */
+    private function preventBadRequest()
+    {
+        if (empty($this->config['key']) || empty($this->config['secret'])) {
+            throw new LunoLibraryException('You need to set both a key and secret before sending a request.');
         }
     }
 
@@ -215,6 +229,6 @@ class LunoRequester
             return new $class($this);
         }
 
-        throw new LunoLibraryException("Unable to find appropriate collection.");
+        throw new LunoLibraryException("Unable to find appropriate collection.");;
     }
 }
