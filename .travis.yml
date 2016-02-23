@@ -4,6 +4,7 @@ php:
 before_script:
 - mkdir -p ~/.composer
 - cp .travis.composer.config.json ~/.composer/config.json
+- touch .env
 - composer self-update
 - composer install --no-interaction --prefer-source
 sudo: false
