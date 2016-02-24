@@ -27,7 +27,7 @@ class SessionCollection extends BaseCollection
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      * @internal param array $params
      */
-    public function access(string $key, array $body = [], bool $expand = false):array
+    public function access($key, array $body = [], $expand = false)
     {
         $params = [];
         $key = compact('key');

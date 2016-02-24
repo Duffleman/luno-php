@@ -2,9 +2,10 @@
 
 namespace Duffleman\Luno;
 
-use Duffleman\Luno\Collections\{
-    ApiCollection, EventCollection, SessionCollection, UserCollection
-};
+use Duffleman\Luno\Collections\ApiCollection;
+use Duffleman\Luno\Collections\EventCollection;
+use Duffleman\Luno\Collections\SessionCollection;
+use Duffleman\Luno\Collections\UserCollection;
 use Duffleman\Luno\Exceptions\LunoApiException;
 use Duffleman\Luno\Exceptions\LunoLibraryException;
 use Duffleman\Luno\Interactors\AnalyticsInteractor;
@@ -103,7 +104,7 @@ class LunoRequester
      * @return mixed
      * @throws LunoApiException
      */
-    public function request(string $method, string $route, array $params = [], array $body = [])
+    public function request($method, $route, array $params = [], array $body = [])
     {
         $this->preventBadRequest();
 
@@ -187,7 +188,7 @@ class LunoRequester
      * @param array $body
      * @return string
      */
-    private function buildBody(array $body): string
+    private function buildBody(array $body)
     {
         $body = $this->fixEmptyArrays($body);
 
@@ -200,7 +201,7 @@ class LunoRequester
      * @param array $body
      * @return array
      */
-    private function fixEmptyArrays(array $body): array
+    private function fixEmptyArrays(array $body)
     {
         foreach ($body as $key => $value) {
             if (is_null($value)) {

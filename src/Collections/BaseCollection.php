@@ -28,7 +28,7 @@ class BaseCollection extends BaseInteractor
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      * @internal array $params
      */
-    public function all(array $given_params = []): Generator
+    public function all(array $given_params = [])
     {
         do {
             $params = !empty($collection['page']['next']) ? ['from' => $collection['page']['next']['id']] : [];
@@ -48,7 +48,7 @@ class BaseCollection extends BaseInteractor
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function recent(array $params = []): array
+    public function recent(array $params = [])
     {
         return $this->requester->request('GET', static::$endpoint, $params)['list'];
     }
@@ -61,7 +61,7 @@ class BaseCollection extends BaseInteractor
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function create(array $attributes = [], string $expand = ''): array
+    public function create(array $attributes = [], $expand = '')
     {
         $params = [];
         if (!empty($expand)) {
@@ -78,7 +78,7 @@ class BaseCollection extends BaseInteractor
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function find(string $id): array
+    public function find($id)
     {
         return $this->requester->request('GET', static::$endpoint . '/' . $id);
     }
@@ -91,7 +91,7 @@ class BaseCollection extends BaseInteractor
      * @param bool   $auto_name
      * @return bool
      */
-    public function overwrite(string $id, array $body, $auto_name = true): bool
+    public function overwrite($id, array $body, $auto_name = true)
     {
         return $this->update('PUT', $id, $body, $auto_name);
     }
@@ -107,7 +107,7 @@ class BaseCollection extends BaseInteractor
      * @return bool
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    private function update(string $method, string $id, array $body, $auto_name = true): bool
+    private function update($method, $id, array $body, $auto_name = true)
     {
         $params = [];
 
@@ -132,7 +132,7 @@ class BaseCollection extends BaseInteractor
      * @param bool   $auto_name
      * @return bool
      */
-    public function append(string $id, array $body, $auto_name = true): bool
+    public function append($id, array $body, $auto_name = true)
     {
         return $this->update('PATCH', $id, $body, $auto_name);
     }
@@ -144,7 +144,7 @@ class BaseCollection extends BaseInteractor
      * @return bool
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function destroy(string $id): bool
+    public function destroy($id)
     {
         $response = $this->requester->request('DELETE', static::$endpoint . '/' . $id);
 

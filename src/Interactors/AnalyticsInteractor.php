@@ -24,7 +24,7 @@ class AnalyticsInteractor extends BaseInteractor
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function users(array $days = ['total', '7', '28']): array
+    public function users(array $days = ['total', '7', '28'])
     {
         $params = $this->formDaysParam($days);
 
@@ -52,7 +52,7 @@ class AnalyticsInteractor extends BaseInteractor
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function sessions(array $days = ['total', '7', '28']): array
+    public function sessions(array $days = ['total', '7', '28'])
     {
         $params = $this->formDaysParam($days);
 
@@ -66,7 +66,7 @@ class AnalyticsInteractor extends BaseInteractor
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function events(array $days = ['total', '7', '28']): array
+    public function events(array $days = ['total', '7', '28'])
     {
         $params = $this->formDaysParam($days);
 
@@ -79,12 +79,12 @@ class AnalyticsInteractor extends BaseInteractor
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function listEvents(): array
+    public function listEvents()
     {
         return $this->requester->request('GET', static::$endpoint . '/events/list');
     }
 
-    public function timeline(array $options = []): array
+    public function timeline(array $options = [])
     {
         return $this->requester->request('GET', static::$endpoint . '/events/timeline', $options);
     }

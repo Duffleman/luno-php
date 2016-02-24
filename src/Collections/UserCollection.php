@@ -25,7 +25,7 @@ class UserCollection extends BaseCollection
      * @return bool
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function validatePassword(string $id, string $password): bool
+    public function validatePassword($id, $password)
     {
         $body = compact('password');
 
@@ -47,7 +47,7 @@ class UserCollection extends BaseCollection
      * @return bool
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function changePassword(string $id, string $password, string $current_password = null): bool
+    public function changePassword($id, $password, $current_password = null)
     {
         $body = compact('password', 'current_password');
 
@@ -67,7 +67,7 @@ class UserCollection extends BaseCollection
      * @param string $password
      * @return array
      */
-    public function login(string $login, string $password): array
+    public function login($login, $password)
     {
         $body = compact('login', 'password');
 
