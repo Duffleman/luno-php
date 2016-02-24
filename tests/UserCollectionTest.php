@@ -47,7 +47,7 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    private function buildFakeUser(): array
+    private function buildFakeUser()
     {
         return [
             'username' => self::$faker->userName,
