@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "655447e07d6c99b9f1aa98a31634623a",
-    "content-hash": "6ec12429c741709a8c6522af67794f1c",
+    "hash": "e0777524b47ece755d143328e14fd3c4",
+    "content-hash": "eef236d5814e224cc7aa2cf15933eb0e",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -142,12 +142,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6"
+                "reference": "dc03e97371e37172ff94547980f898659de76ffc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6",
-                "reference": "b59321a17f3e3ebc14f2bbbf73b4d065a88cf3f6",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/dc03e97371e37172ff94547980f898659de76ffc",
+                "reference": "dc03e97371e37172ff94547980f898659de76ffc",
                 "shasum": ""
             },
             "require": {
@@ -185,7 +185,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-02-10 14:20:03"
+            "time": "2016-02-23 21:19:12"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -251,12 +251,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "12209a968de18e05abbead5e8b9fc8ce2a9727de"
+                "reference": "14837fd94c1a58fe804da8a1b89b990e82858e39"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/12209a968de18e05abbead5e8b9fc8ce2a9727de",
-                "reference": "12209a968de18e05abbead5e8b9fc8ce2a9727de",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/14837fd94c1a58fe804da8a1b89b990e82858e39",
+                "reference": "14837fd94c1a58fe804da8a1b89b990e82858e39",
                 "shasum": ""
             },
             "require": {
@@ -285,7 +285,7 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "http://laravel.com",
-            "time": "2016-02-16 14:18:43"
+            "time": "2016-02-24 15:14:32"
         },
         {
             "name": "illuminate/support",
@@ -293,12 +293,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "ee541261e288205bf7191b6458edeb0f9e3ab756"
+                "reference": "82e6fb9010f5bf6c9159020364db856c5261ca72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/ee541261e288205bf7191b6458edeb0f9e3ab756",
-                "reference": "ee541261e288205bf7191b6458edeb0f9e3ab756",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/82e6fb9010f5bf6c9159020364db856c5261ca72",
+                "reference": "82e6fb9010f5bf6c9159020364db856c5261ca72",
                 "shasum": ""
             },
             "require": {
@@ -340,7 +340,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "http://laravel.com",
-            "time": "2016-02-19 16:55:30"
+            "time": "2016-02-24 15:14:32"
         },
         {
             "name": "psr/http-message",
@@ -504,12 +504,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "d8c0bebc230284edc91b5e7091013e7a0c55bf34"
+                "reference": "66ea6b0334813292af03ffbb8c0ee6beee65fd89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/d8c0bebc230284edc91b5e7091013e7a0c55bf34",
-                "reference": "d8c0bebc230284edc91b5e7091013e7a0c55bf34",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/66ea6b0334813292af03ffbb8c0ee6beee65fd89",
+                "reference": "66ea6b0334813292af03ffbb8c0ee6beee65fd89",
                 "shasum": ""
             },
             "require": {
@@ -546,7 +546,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-02-20 14:15:56"
+            "time": "2016-02-23 15:32:04"
         },
         {
             "name": "myclabs/deep-copy",
@@ -948,12 +948,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "4a8ea0ec913810793fbd83d5bca25f36efe459c4"
+                "reference": "1056087aa4e0973581b38d65d4ac9f5708a93b0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/4a8ea0ec913810793fbd83d5bca25f36efe459c4",
-                "reference": "4a8ea0ec913810793fbd83d5bca25f36efe459c4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1056087aa4e0973581b38d65d4ac9f5708a93b0d",
+                "reference": "1056087aa4e0973581b38d65d4ac9f5708a93b0d",
                 "shasum": ""
             },
             "require": {
@@ -1015,7 +1015,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-22 20:54:57"
+            "time": "2016-02-23 11:55:26"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1764,7 +1764,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0.0"
+        "php": ">=5.6.0"
     },
     "platform-dev": []
 }
