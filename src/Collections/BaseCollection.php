@@ -39,8 +39,6 @@ class BaseCollection extends BaseInteractor
                 yield $model;
             }
         } while (!empty($collection['page']['next']));
-
-        return true;
     }
 
     /**
