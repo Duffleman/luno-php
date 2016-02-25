@@ -181,6 +181,34 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
     /**
      * @depends test_user_can_login
      * @param array $user
+     * @return array
+     */
+    public function test_a_user_can_be_found_by_email(array $user)
+    {
+        $fresh_user = self::$luno->users->findBy('email', $user['email']);
+
+        $this->assertTrue($fresh_user['id'] === $user['id']);
+
+        return $user;
+    }
+
+    /**
+     * @depends test_a_user_can_be_found_by_email
+     * @param array $user
+     * @return array
+     */
+    public function test_a_user_can_be_found_by_username(array $user)
+    {
+        $fresh_user = self::$luno->users->findBy('username', $user['username']);
+
+        $this->assertTrue($fresh_user['id'] === $user['id']);
+
+        return $user;
+    }
+
+    /**
+     * @depends test_a_user_can_be_found_by_username
+     * @param array $user
      */
     public function test_user_can_be_deactivated(array $user)
     {

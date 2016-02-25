@@ -73,4 +73,9 @@ class UserCollection extends BaseCollection
 
         return $this->requester->request('POST', static::$endpoint . '/login', [], $body);
     }
+
+    public function findBy($key, $value)
+    {
+        return $this->requester->request('GET', static::$endpoint . "/{$key}:{$value}");
+    }
 }
