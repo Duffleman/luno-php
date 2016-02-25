@@ -74,6 +74,27 @@ class UserCollection extends BaseCollection
         return $this->requester->request('POST', static::$endpoint . '/login', [], $body);
     }
 
+    /**
+     * Exactly the same as login() but you pass in an array of credentials rather than specify
+     * the arguments.
+     *
+     * @param array $credentials
+     * @return mixed
+     * @throws \Duffleman\Luno\Exceptions\LunoApiException
+     */
+    public function loginByCredentials(array $credentials)
+    {
+        return $this->requester->request('POST', static::$endpoint . '/login', [], $credentials);
+    }
+
+    /**
+     * Find a user by email, username, or id.
+     *
+     * @param string $key
+     * @param        $value
+     * @return array
+     * @throws \Duffleman\Luno\Exceptions\LunoApiException
+     */
     public function findBy($key, $value)
     {
         return $this->requester->request('GET', static::$endpoint . "/{$key}:{$value}");

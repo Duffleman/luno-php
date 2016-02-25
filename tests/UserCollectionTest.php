@@ -181,6 +181,25 @@ class UserCollectionTest extends PHPUnit_Framework_TestCase
     /**
      * @depends test_user_can_login
      * @param array $user
+     * @return mixed
+     */
+    public function test_a_user_can_be_logged_in_by_array_of_credentials(array $user)
+    {
+        self::$luno->users->changePassword($user['id'], 'myNewPassword');
+
+        $session = self::$luno->users->loginByCredentials([
+            'username' => $user['username'],
+            'password' => 'myNewPassword',
+        ]);
+
+        $this->assertTrue($session['session']['user']['id'] === $user['id']);
+
+        return $session['user'];
+    }
+
+    /**
+     * @depends test_a_user_can_be_logged_in_by_array_of_credentials
+     * @param array $user
      * @return array
      */
     public function test_a_user_can_be_found_by_email(array $user)
