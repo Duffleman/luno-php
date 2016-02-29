@@ -86,17 +86,4 @@ class UserCollection extends BaseCollection
     {
         return $this->requester->request('POST', static::$endpoint . '/login', [], $credentials);
     }
-
-    /**
-     * Find a user by email, username, or id.
-     *
-     * @param string $key
-     * @param        $value
-     * @return array
-     * @throws \Duffleman\Luno\Exceptions\LunoApiException
-     */
-    public function findBy($key, $value)
-    {
-        return $this->requester->request('GET', static::$endpoint . "/{$key}:{$value}");
-    }
 }

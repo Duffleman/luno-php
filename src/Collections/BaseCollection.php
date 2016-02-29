@@ -70,15 +70,28 @@ class BaseCollection extends BaseInteractor
     }
 
     /**
-     * Find a user.
+     * Find a resource by ID.
      *
-     * @param string $id
+     * @param $value
      * @return array
      * @throws \Duffleman\Luno\Exceptions\LunoApiException
      */
-    public function find($id)
+    public function find($value)
     {
-        return $this->requester->request('GET', static::$endpoint . '/' . $id);
+        return $this->requester->request('GET', static::$endpoint . "/{$value}");
+    }
+
+    /**
+     * Find a resource by a key.
+     *
+     * @param string $key
+     * @param        $value
+     * @return array
+     * @throws \Duffleman\Luno\Exceptions\LunoApiException
+     */
+    public function findBy($key, $value)
+    {
+        return $this->requester->request('GET', static::$endpoint . "/{$key}:{$value}");
     }
 
     /**
