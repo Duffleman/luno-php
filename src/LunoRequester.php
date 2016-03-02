@@ -9,6 +9,7 @@ use Duffleman\Luno\Collections\UserCollection;
 use Duffleman\Luno\Exceptions\LunoApiException;
 use Duffleman\Luno\Exceptions\LunoLibraryException;
 use Duffleman\Luno\Interactors\AnalyticsInteractor;
+use Duffleman\Luno\Managers\ArrayManager;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -61,13 +62,21 @@ final class LunoRequester
     private $endpoint;
 
     /**
+     * Holds the result manager.
+     *
+     * @var ResultManager
+     */
+    private $manager;
+
+    /**
      * LunoRequester constructor.
      *
      * @param array       $config
      * @param Client|null $guzzle
      */
-    public function __construct(array $config = [], Client $guzzle = null)
+    public function __construct(array $config = [], Client $guzzle = null, ResultManager $manager = null)
     {
+        $this->manager = $manager ? $manager : new ArrayManager();
         $this->guzzle = $guzzle ?: new Client([
             'defaults' => [
                 'headers' => [
@@ -231,5 +240,15 @@ final class LunoRequester
         }
 
         throw new LunoLibraryException("Unable to find appropriate collection.");;
+    }
+
+    /**
+     * Gets the manager.
+     *
+     * @return ResultManager
+     */
+    public function getManager()
+    {
+        return $this->manager;
     }
 }
