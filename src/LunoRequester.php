@@ -6,6 +6,7 @@ use Duffleman\Luno\Collections\ApiCollection;
 use Duffleman\Luno\Collections\EventCollection;
 use Duffleman\Luno\Collections\SessionCollection;
 use Duffleman\Luno\Collections\UserCollection;
+use Duffleman\Luno\Contracts\ResultManager;
 use Duffleman\Luno\Exceptions\LunoApiException;
 use Duffleman\Luno\Exceptions\LunoLibraryException;
 use Duffleman\Luno\Interactors\AnalyticsInteractor;
@@ -71,8 +72,9 @@ final class LunoRequester
     /**
      * LunoRequester constructor.
      *
-     * @param array       $config
+     * @param array $config
      * @param Client|null $guzzle
+     * @param ResultManager $manager
      */
     public function __construct(array $config = [], Client $guzzle = null, ResultManager $manager = null)
     {
@@ -113,7 +115,7 @@ final class LunoRequester
      * @return mixed
      * @throws LunoApiException
      */
-    public function request($method, $route, array $params = [], array $body = [])
+    public function request($method, $route, array $params = [], array $body = [], $returnRawResult = false)
     {
         $this->preventBadRequest();
 
@@ -161,8 +163,14 @@ final class LunoRequester
                 'query'   => $params,
             ]);
             $jsonResponse = (string)$response->getBody();
+            $resultSet = json_decode($jsonResponse, true);
 
-            return json_decode($jsonResponse, true);
+            if($returnRawResult) {
+                return $resultSet;
+            } else {
+                return $this->manager->translate($resultSet);
+            }
+
         } catch (ClientException $exception) {
             $rawResponse = json_decode((string)$exception->getResponse()->getBody(), true);
             throw new LunoApiException($rawResponse);

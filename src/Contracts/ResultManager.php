@@ -1,12 +1,12 @@
 <?php
 
-namespace Duffleman\Luno\Interfaces;
+namespace Duffleman\Luno\Contracts;
 
 
 interface ResultManager
 {
     /**
-     * Get teh data from the manager.
+     * Get the data from the manager.
      *
      * @return mixed
      */

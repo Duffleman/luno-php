@@ -29,7 +29,7 @@ final class UserCollection extends BaseCollection
     {
         $body = compact('password');
 
-        $response = $this->requester->request('POST', static::$endpoint . '/' . $id . '/password/validate', [], $body);
+        $response = $this->requester->request('POST', static::$endpoint . '/' . $id . '/password/validate', [], $body, true);
 
         if ($response['success']) {
             return true;
@@ -51,7 +51,7 @@ final class UserCollection extends BaseCollection
     {
         $body = compact('password', 'current_password');
 
-        $response = $this->requester->request('POST', static::$endpoint . '/' . $id . '/password/change', [], $body);
+        $response = $this->requester->request('POST', static::$endpoint . '/' . $id . '/password/change', [], $body, true);
 
         if ($response['success']) {
             return true;

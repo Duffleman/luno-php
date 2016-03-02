@@ -4,16 +4,18 @@ namespace Duffleman\Luno\Managers;
 
 
 use Duffleman\Luno\Contracts\ResultManager;
+use stdClass;
 
-final class ArrayManager implements ResultManager
+class StdClassManager implements ResultManager
 {
+
     /**
-     * Get the data from the manager.
+     * Get teh data from the manager.
      *
      * @return mixed
      */
     public static function translate(array $data)
     {
-        return $data;
+        return new stdClass($data);
     }
 }
