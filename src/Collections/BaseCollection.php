@@ -49,7 +49,11 @@ abstract class BaseCollection extends BaseInteractor
      */
     public function recent(array $params = [])
     {
-        return $this->requester->request('GET', static::$endpoint, $params)['list'];
+        $manager = $this->requester->getManager();
+
+        $response = $this->requester->request('GET', static::$endpoint, $params, [], true);
+
+        return $manager::translate($response['list']);
     }
 
     /**
