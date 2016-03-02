@@ -10,7 +10,7 @@ use Generator;
  *
  * @package Duffleman\Luno\Collections
  */
-class BaseCollection extends BaseInteractor
+abstract class BaseCollection extends BaseInteractor
 {
 
     /**

@@ -7,7 +7,7 @@ namespace Duffleman\Luno\Interactors;
  *
  * @package Duffleman\Luno\Interactors
  */
-class AnalyticsInteractor extends BaseInteractor
+final class AnalyticsInteractor extends BaseInteractor
 {
 
     /**

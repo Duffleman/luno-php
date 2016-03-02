@@ -7,7 +7,7 @@ namespace Duffleman\Luno\Collections;
  *
  * @package Duffleman\Luno\Collections
  */
-class UserCollection extends BaseCollection
+final class UserCollection extends BaseCollection
 {
 
     /**

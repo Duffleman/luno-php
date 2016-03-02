@@ -17,7 +17,7 @@ use GuzzleHttp\Exception\ClientException;
  *
  * @package Duffleman\Luno
  */
-class LunoRequester
+final class LunoRequester
 {
 
     /**

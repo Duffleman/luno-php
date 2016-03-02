@@ -7,7 +7,7 @@ namespace Duffleman\Luno\Collections;
  *
  * @package Duffleman\Luno\Collections
  */
-class EventCollection extends BaseCollection
+final class EventCollection extends BaseCollection
 {
 
     /**
