@@ -72,8 +72,8 @@ final class LunoRequester
     /**
      * LunoRequester constructor.
      *
-     * @param array $config
-     * @param Client|null $guzzle
+     * @param array         $config
+     * @param Client|null   $guzzle
      * @param ResultManager $manager
      */
     public function __construct(array $config = [], Client $guzzle = null, ResultManager $manager = null)
@@ -106,14 +106,16 @@ final class LunoRequester
 
     /**
      * The main request method.
-     * Send a request to Luno.
+     * Send a request to Luno.io.
      *
-     * @param string $method
-     * @param string $route
-     * @param array  $params
-     * @param array  $body
+     * @param       $method
+     * @param       $route
+     * @param array $params
+     * @param array $body
+     * @param bool  $returnRawResult
      * @return mixed
      * @throws LunoApiException
+     * @throws LunoLibraryException
      */
     public function request($method, $route, array $params = [], array $body = [], $returnRawResult = false)
     {
@@ -165,12 +167,11 @@ final class LunoRequester
             $jsonResponse = (string)$response->getBody();
             $resultSet = json_decode($jsonResponse, true);
 
-            if($returnRawResult) {
+            if ($returnRawResult) {
                 return $resultSet;
             } else {
                 return $this->manager->translate($resultSet);
             }
-
         } catch (ClientException $exception) {
             $rawResponse = json_decode((string)$exception->getResponse()->getBody(), true);
             throw new LunoApiException($rawResponse);
@@ -241,13 +242,13 @@ final class LunoRequester
      */
     public function __get($name)
     {
-        if (array_key_exists($name, static::$classmap)) {
-            $class = static::$classmap[$name];
-
-            return new $class($this);
+        if (!array_key_exists($name, static::$classmap)) {
+            throw new LunoLibraryException("Unable to find appropriate collection.");
         }
 
-        throw new LunoLibraryException("Unable to find appropriate collection.");;
+        $class = static::$classmap[$name];
+
+        return new $class($this);
     }
 
     /**
