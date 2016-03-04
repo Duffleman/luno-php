@@ -7,7 +7,7 @@ namespace Duffleman\Luno\Collections;
  *
  * @package Duffleman\Luno\Collections
  */
-class UserCollection extends BaseCollection
+final class UserCollection extends BaseCollection
 {
 
     /**
@@ -29,7 +29,7 @@ class UserCollection extends BaseCollection
     {
         $body = compact('password');
 
-        $response = $this->requester->request('POST', static::$endpoint . '/' . $id . '/password/validate', [], $body);
+        $response = $this->requester->request('POST', static::$endpoint . '/' . $id . '/password/validate', [], $body, true);
 
         if ($response['success']) {
             return true;
@@ -51,7 +51,7 @@ class UserCollection extends BaseCollection
     {
         $body = compact('password', 'current_password');
 
-        $response = $this->requester->request('POST', static::$endpoint . '/' . $id . '/password/change', [], $body);
+        $response = $this->requester->request('POST', static::$endpoint . '/' . $id . '/password/change', [], $body, true);
 
         if ($response['success']) {
             return true;

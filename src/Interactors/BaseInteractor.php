@@ -9,7 +9,7 @@ use Duffleman\Luno\LunoRequester;
  *
  * @package Duffleman\Luno\Interactors
  */
-class BaseInteractor
+abstract class BaseInteractor
 {
 
     /**

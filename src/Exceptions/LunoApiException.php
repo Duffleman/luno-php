@@ -4,7 +4,7 @@ namespace Duffleman\Luno\Exceptions;
 
 use Exception;
 
-class LunoApiException extends Exception
+final class LunoApiException extends Exception
 {
 
     /**

@@ -10,7 +10,7 @@ use Generator;
  *
  * @package Duffleman\Luno\Collections
  */
-class BaseCollection extends BaseInteractor
+abstract class BaseCollection extends BaseInteractor
 {
 
     /**
@@ -30,13 +30,14 @@ class BaseCollection extends BaseInteractor
      */
     public function all(array $given_params = [])
     {
+        $manager = $this->requester->getManager();
         do {
             $params = !empty($collection['page']['next']) ? ['from' => $collection['page']['next']['id']] : [];
             $params = array_merge($params, $given_params);
 
-            $collection = $this->requester->request('GET', static::$endpoint, $params);
+            $collection = $this->requester->request('GET', static::$endpoint, $params, [], true);
             foreach ($collection['list'] as $model) {
-                yield $model;
+                yield $manager::translate($model);
             }
         } while (!empty($collection['page']['next']));
     }
@@ -48,7 +49,11 @@ class BaseCollection extends BaseInteractor
      */
     public function recent(array $params = [])
     {
-        return $this->requester->request('GET', static::$endpoint, $params)['list'];
+        $manager = $this->requester->getManager();
+
+        $response = $this->requester->request('GET', static::$endpoint, $params, [], true);
+
+        return $manager::translate($response['list']);
     }
 
     /**
@@ -126,7 +131,7 @@ class BaseCollection extends BaseInteractor
             $params = ['auto_name' => $auto_name];
         }
 
-        $response = $this->requester->request($method, static::$endpoint . '/' . $id, $params, $body);
+        $response = $this->requester->request($method, static::$endpoint . '/' . $id, $params, $body, true);
 
         if (isset($response['success']) && $response['success'] === true) {
             return true;
@@ -157,7 +162,7 @@ class BaseCollection extends BaseInteractor
      */
     public function destroy($id)
     {
-        $response = $this->requester->request('DELETE', static::$endpoint . '/' . $id);
+        $response = $this->requester->request('DELETE', static::$endpoint . '/' . $id, [], [], true);
 
         if (isset($response['success']) && $response['success'] === true) {
             return true;

@@ -6,9 +6,11 @@ use Duffleman\Luno\Collections\ApiCollection;
 use Duffleman\Luno\Collections\EventCollection;
 use Duffleman\Luno\Collections\SessionCollection;
 use Duffleman\Luno\Collections\UserCollection;
+use Duffleman\Luno\Contracts\ResultManager;
 use Duffleman\Luno\Exceptions\LunoApiException;
 use Duffleman\Luno\Exceptions\LunoLibraryException;
 use Duffleman\Luno\Interactors\AnalyticsInteractor;
+use Duffleman\Luno\Managers\ArrayManager;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -17,7 +19,7 @@ use GuzzleHttp\Exception\ClientException;
  *
  * @package Duffleman\Luno
  */
-class LunoRequester
+final class LunoRequester
 {
 
     /**
@@ -61,13 +63,22 @@ class LunoRequester
     private $endpoint;
 
     /**
+     * Holds the result manager.
+     *
+     * @var ResultManager
+     */
+    private $manager;
+
+    /**
      * LunoRequester constructor.
      *
-     * @param array       $config
+     * @param array $config
      * @param Client|null $guzzle
+     * @param ResultManager $manager
      */
-    public function __construct(array $config = [], Client $guzzle = null)
+    public function __construct(array $config = [], Client $guzzle = null, ResultManager $manager = null)
     {
+        $this->manager = $manager ? $manager : new ArrayManager();
         $this->guzzle = $guzzle ?: new Client([
             'defaults' => [
                 'headers' => [
@@ -104,7 +115,7 @@ class LunoRequester
      * @return mixed
      * @throws LunoApiException
      */
-    public function request($method, $route, array $params = [], array $body = [])
+    public function request($method, $route, array $params = [], array $body = [], $returnRawResult = false)
     {
         $this->preventBadRequest();
 
@@ -152,8 +163,14 @@ class LunoRequester
                 'query'   => $params,
             ]);
             $jsonResponse = (string)$response->getBody();
+            $resultSet = json_decode($jsonResponse, true);
 
-            return json_decode($jsonResponse, true);
+            if($returnRawResult) {
+                return $resultSet;
+            } else {
+                return $this->manager->translate($resultSet);
+            }
+
         } catch (ClientException $exception) {
             $rawResponse = json_decode((string)$exception->getResponse()->getBody(), true);
             throw new LunoApiException($rawResponse);
@@ -231,5 +248,15 @@ class LunoRequester
         }
 
         throw new LunoLibraryException("Unable to find appropriate collection.");;
+    }
+
+    /**
+     * Gets the manager.
+     *
+     * @return ResultManager
+     */
+    public function getManager()
+    {
+        return $this->manager;
     }
 }
