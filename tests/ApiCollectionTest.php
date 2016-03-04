@@ -1,34 +1,9 @@
 <?php
 
-use Duffleman\Luno\LunoRequester;
-
-class ApiCollectionTest extends PHPUnit_Framework_TestCase
+class ApiCollectionTest extends TestCase
 {
 
-    protected static $luno;
-    protected static $faker;
-    protected static $user;
-
-    public static function setUpBeforeClass()
-    {
-        $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
-        $dotenv->load();
-
-        self::$faker = Faker\Factory::create();
-
-        self::$luno = new LunoRequester([
-            'key'     => getenv('LUNO_KEY'),
-            'secret'  => getenv('LUNO_SECRET'),
-            'timeout' => 10000
-        ]);
-
-        self::$user = self::$luno->users->create([
-            'username' => self::$faker->userName,
-            'name'     => self::$faker->name,
-            'email'    => self::$faker->email,
-            'password' => self::$faker->password,
-        ]);
-    }
+    use UsesAFakeUser;
 
     public static function tearDownAfterClass()
     {

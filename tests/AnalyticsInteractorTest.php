@@ -1,23 +1,7 @@
 <?php
 
-use Duffleman\Luno\LunoRequester;
-
-class AnalyticsInteractorTest extends PHPUnit_Framework_TestCase
+class AnalyticsInteractorTest extends TestCase
 {
-
-    protected static $luno;
-
-    public function setUp()
-    {
-        $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
-        $dotenv->load();
-
-        self::$luno = new LunoRequester([
-            'key'     => getenv('LUNO_KEY'),
-            'secret'  => getenv('LUNO_SECRET'),
-            'timeout' => 10000
-        ]);
-    }
 
     public function test_user_analytics()
     {

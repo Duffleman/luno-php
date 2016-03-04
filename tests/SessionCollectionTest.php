@@ -1,56 +1,9 @@
 <?php
 
-use Duffleman\Luno\LunoRequester;
-
-class SessionCollectionTest extends PHPUnit_Framework_TestCase
+class SessionCollectionTest extends TestCase
 {
 
-    /**
-     * LunoRequester instance.
-     *
-     * @var LunoRequester
-     */
-    protected static $luno;
-
-    /**
-     * Faker instance.
-     *
-     * @var
-     */
-    protected static $faker;
-
-    /**
-     * User array to use for sessions.
-     *
-     * @var array
-     */
-    protected static $user;
-
-    public static function setUpBeforeClass()
-    {
-        $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
-        $dotenv->load();
-
-        self::$faker = Faker\Factory::create();
-
-        self::$luno = new LunoRequester([
-            'key'     => getenv('LUNO_KEY'),
-            'secret'  => getenv('LUNO_SECRET'),
-            'timeout' => 10000
-        ]);
-
-        self::$user = self::$luno->users->create([
-            'username' => self::$faker->userName,
-            'name'     => self::$faker->name,
-            'email'    => self::$faker->email,
-            'password' => self::$faker->password,
-        ]);
-    }
-
-    public static function tearDownAfterClass()
-    {
-        self::$luno->users->destroy(self::$user['id']);
-    }
+    use UsesAFakeUser;
 
     public function test_can_list_recent_100_sessions()
     {

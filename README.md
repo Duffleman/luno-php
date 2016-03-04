@@ -4,8 +4,6 @@
 
 A PHP library for interacting with [luno.io](http://luno.io).
 
-Requires PHP 7.0
-
 ### Build Status
 [![Master Branch Build status](https://img.shields.io/travis/Duffleman/luno-php/master.svg?style=flat-square&label=master%20branch%20build)](https://travis-ci.org/Duffleman/luno-php)
 

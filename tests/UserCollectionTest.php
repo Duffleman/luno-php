@@ -1,26 +1,7 @@
 <?php
 
-use Duffleman\Luno\LunoRequester;
-
-class UserCollectionTest extends PHPUnit_Framework_TestCase
+class UserCollectionTest extends TestCase
 {
-
-    protected static $luno;
-    protected static $faker;
-
-    public static function setUpBeforeClass()
-    {
-        $dotenv = new Dotenv\Dotenv(__DIR__ . '/..');
-        $dotenv->load();
-
-        self::$faker = Faker\Factory::create();
-
-        self::$luno = new LunoRequester([
-            'key'     => getenv('LUNO_KEY'),
-            'secret'  => getenv('LUNO_SECRET'),
-            'timeout' => 10000
-        ]);
-    }
 
     public function test_can_list_recent_100_users()
     {
