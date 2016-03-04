@@ -12,7 +12,8 @@ final class GenericClassManager implements ResultManager
     /**
      * Get teh data from the manager.
      *
-     * @return mixed
+     * @param array $data
+     * @return Generic
      */
     public static function translate(array $data)
     {
@@ -29,6 +30,12 @@ final class GenericClassManager implements ResultManager
         return new Generic($data);
     }
 
+    /**
+     * Detect if an array has stringed keys rather than zero indexed.
+     *
+     * @param array $array
+     * @return bool
+     */
     private static function has_string_keys(array $array) {
         return count(array_filter(array_keys($array), 'is_string')) > 0;
     }
