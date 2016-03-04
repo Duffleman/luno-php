@@ -72,14 +72,12 @@ final class LunoRequester
     /**
      * LunoRequester constructor.
      *
-     * @param array         $config
-     * @param Client|null   $guzzle
-     * @param ResultManager $manager
+     * @param array $config
      */
-    public function __construct(array $config = [], Client $guzzle = null, ResultManager $manager = null)
+    public function __construct(array $config = [])
     {
-        $this->manager = $manager ? $manager : new ArrayManager();
-        $this->guzzle = $guzzle ?: new Client([
+        $this->manager = isset($config['manager']) ? $config['manager'] : new ArrayManager();
+        $this->guzzle = isset($config['client']) ? $config['client'] : new Client([
             'defaults' => [
                 'headers' => [
                     'accept'     => 'application/json',

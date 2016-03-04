@@ -12,7 +12,8 @@ $luno = new LunoRequester([
     'key'     => getenv('LUNO_KEY'),
     'secret'  => getenv('LUNO_SECRET'),
     'timeout' => 10000,
-], null, new GenericClassManager());
+    'manager' => new GenericClassManager(),
+]);
 
 $users = $luno->users->recent(['limit' => 5]);
 
