@@ -22,6 +22,13 @@ final class LunoApiException extends Exception
     protected $luno_status;
 
     /**
+     * The human readable description that is returned with the error.
+     *
+     * @var string
+     */
+    protected $luno_description;
+
+    /**
      * An array of extra parameters.
      *
      * @var array
@@ -38,6 +45,7 @@ final class LunoApiException extends Exception
         parent::__construct($error['message']);
         $this->luno_code = $error['code'];
         $this->luno_status = $error['status'];
+        $this->luno_description = $error['description'];
         if (array_key_exists('extra', $error)) {
             $this->luno_extra = $error['extra'];
         }
@@ -71,5 +79,25 @@ final class LunoApiException extends Exception
     public function getLunoExtra()
     {
         return $this->luno_extra;
+    }
+
+    /**
+     * Alias for the getLunoDesc() function.
+     *
+     * @return string
+     */
+    public function getLunoDescription()
+    {
+        return $this->getLunoDesc();
+    }
+
+    /**
+     * Getter for the Luno Description
+     *
+     * @return string
+     */
+    public function getLunoDesc()
+    {
+        return $this->luno_description;
     }
 }
