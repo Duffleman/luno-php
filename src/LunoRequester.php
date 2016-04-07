@@ -122,6 +122,9 @@ final class LunoRequester
         // Build up required params.
         $params['key'] = $this->config['key'];
         $params['timestamp'] = $this->buildTimestamp();
+        if ($this->isSandbox()) {
+            $params['sandbox'] = true;
+        }
 
         // Set our route.
         $route = $this->endpoint . $route;
@@ -196,6 +199,16 @@ final class LunoRequester
     private function buildTimestamp()
     {
         return date('c');
+    }
+
+    /**
+     * Is the Requester set to use the Sandbox environment?
+     *
+     * @return bool
+     */
+    public function isSandbox()
+    {
+        return isset($this->config['sandbox']) && $this->config['sandbox'] === true;
     }
 
     /**

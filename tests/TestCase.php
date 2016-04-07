@@ -29,7 +29,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         self::$luno = new LunoRequester([
             'key'     => getenv('LUNO_KEY'),
             'secret'  => getenv('LUNO_SECRET'),
-            'timeout' => 10000
+            'timeout' => 10000,
+            'sandbox' => true,
         ]);
     }
 }
