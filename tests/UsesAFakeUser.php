@@ -10,6 +10,10 @@ trait UsesAFakeUser
      */
     protected static $user;
 
+    protected static $faker;
+
+    protected static $luno;
+
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
@@ -24,6 +28,6 @@ trait UsesAFakeUser
 
     public static function tearDownAfterClass()
     {
-        self::$luno->users->destroy(self::$user['id']);
+        self::$luno->users->permanentlyDestroy(self::$user['id']);
     }
 }

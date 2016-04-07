@@ -209,6 +209,7 @@ class UserCollectionTest extends TestCase
     /**
      * @depends test_a_user_can_be_found_by_username
      * @param array $user
+     * @return array
      */
     public function test_user_can_be_deactivated(array $user)
     {
@@ -218,6 +219,17 @@ class UserCollectionTest extends TestCase
 
         $this->assertNotNull($user['closed']);
         $this->assertTrue($response);
+
+        return $user;
     }
 
+    /**
+     * @depends test_user_can_be_deactivated
+     * @param array $user
+     */
+    public function test_a_user_can_be_permanently_deleted(array $user)
+    {
+        $response = self::$luno->users->permanentlyDestroy($user['id']);
+        $this->assertTrue($response);
+    }
 }

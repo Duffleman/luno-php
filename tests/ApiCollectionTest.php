@@ -4,12 +4,7 @@ class ApiCollectionTest extends TestCase
 {
 
     use UsesAFakeUser;
-
-    public static function tearDownAfterClass()
-    {
-        self::$luno->users->destroy(self::$user['id']);
-    }
-
+    
     public function test_api_keys_can_be_retrieved()
     {
         $keys = self::$luno->apikeys->recent();

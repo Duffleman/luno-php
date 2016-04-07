@@ -1,7 +1,5 @@
 <?php
 
-use Duffleman\Luno\LunoRequester;
-
 class EventCollectionTest extends TestCase
 {
 
@@ -36,12 +34,7 @@ class EventCollectionTest extends TestCase
 
     public function test_events_can_be_retrieved_by_user_id()
     {
-        $user = self::$luno->users->create([
-            'username' => self::$faker->userName,
-            'name'     => self::$faker->name,
-            'password' => self::$faker->password,
-            'email'    => self::$faker->email,
-        ]);
+        $user = self::$user;
 
         $build = 5;
 
@@ -62,8 +55,6 @@ class EventCollectionTest extends TestCase
         foreach ($events as $iterator_event) {
             $this->assertTrue($iterator_event['user']['id'] === $user['id']);
         }
-
-        self::$luno->users->destroy($user['id']);
     }
 
     /**

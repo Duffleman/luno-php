@@ -30,6 +30,10 @@ class SessionCollectionTest extends TestCase
         return $session;
     }
 
+    /**
+     * @depends test_an_annon_session_can_be_created
+     * @return mixed
+     */
     public function test_a_session_can_be_built_for_a_user()
     {
         $user_id = self::$user['id'];
@@ -52,16 +56,12 @@ class SessionCollectionTest extends TestCase
     }
 
     /**
+     * @depends test_a_session_can_be_built_for_a_user
      * @return array
      */
     public function test_a_session_be_retrieved_for_a_user_using_generators()
     {
-        $user = self::$luno->users->create([
-            'username' => self::$faker->userName,
-            'name'     => self::$faker->name,
-            'password' => self::$faker->password,
-            'email'    => self::$faker->email,
-        ]);
+        $user = self::$user;
 
         $build = 5;
 
@@ -79,21 +79,15 @@ class SessionCollectionTest extends TestCase
         foreach ($sessions as $iterator_session) {
             $this->assertTrue($iterator_session['user']['id'] === $user['id']);
         }
-
-        self::$luno->users->destroy($user['id']);
     }
 
     /**
+     * @depends test_a_session_be_retrieved_for_a_user_using_generators
      * @return array
      */
     public function test_a_session_be_retrieved_for_a_user()
     {
-        $user = self::$luno->users->create([
-            'username' => self::$faker->userName,
-            'name'     => self::$faker->name,
-            'password' => self::$faker->password,
-            'email'    => self::$faker->email,
-        ]);
+        $user = self::$user;
 
         $build = 5;
 
@@ -107,13 +101,19 @@ class SessionCollectionTest extends TestCase
             'user_id' => $user['id']
         ]);
 
-        $this->assertCount(5, $sessions);
+        $expected = 11;
+        /**
+         * You may be wondering why this is set to 11.
+         * This is because 1 session is generated for a user in a previous test.
+         * The later 5 sessions are generated for another test.
+         * Finally this test generates another 5 sessions.
+         * The user should therefore have 11 sessions.
+         */
+        $this->assertCount($expected, $sessions);
 
         foreach ($sessions as $iterator_session) {
             $this->assertTrue($iterator_session['user']['id'] === $user['id']);
         }
-
-        self::$luno->users->destroy($user['id']);
     }
 
     /**
