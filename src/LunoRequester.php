@@ -9,6 +9,7 @@ use Duffleman\Luno\Collections\UserCollection;
 use Duffleman\Luno\Contracts\ResultManager;
 use Duffleman\Luno\Exceptions\LunoApiException;
 use Duffleman\Luno\Exceptions\LunoLibraryException;
+use Duffleman\Luno\Interactors\AccountInteractor;
 use Duffleman\Luno\Interactors\AnalyticsInteractor;
 use Duffleman\Luno\Managers\ArrayManager;
 use GuzzleHttp\Client;
@@ -28,11 +29,12 @@ final class LunoRequester
      * @var array
      */
     private static $classmap = [
+        'account'   => AccountInteractor::class,
         'apikeys'   => ApiCollection::class,
         'analytics' => AnalyticsInteractor::class,
-        'users'     => UserCollection::class,
-        'sessions'  => SessionCollection::class,
         'events'    => EventCollection::class,
+        'sessions'  => SessionCollection::class,
+        'users'     => UserCollection::class,
     ];
 
     /**
