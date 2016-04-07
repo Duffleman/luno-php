@@ -86,4 +86,25 @@ final class UserCollection extends BaseCollection
     {
         return $this->requester->request('POST', static::$endpoint . '/login', [], $credentials);
     }
+
+    public function reactivate($id)
+    {
+        return $this->requester->request('POST', static::$endpoint . '/' . $id . '/reactivate');
+    }
+
+    public function destroy($id, $permanent = false)
+    {
+        $headers = [];
+        if ($permanent) {
+            $headers = compact('permanent');
+        }
+
+        $response = $this->requester->request('DELETE', static::$endpoint . '/' . $id, $headers, [], true);
+
+        if (isset($response['success']) && $response['success'] === true) {
+            return true;
+        }
+
+        return false;
+    }
 }
