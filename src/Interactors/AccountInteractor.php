@@ -16,4 +16,9 @@ class AccountInteractor extends BaseInteractor
     {
         return $this->requester->request('GET', static::$endpoint);
     }
+
+    public function update(array $new_details)
+    {
+        return $this->requester->request('PUT', self::$endpoint, [], $new_details);
+    }
 }
