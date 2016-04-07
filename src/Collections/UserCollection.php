@@ -92,12 +92,9 @@ final class UserCollection extends BaseCollection
         return $this->requester->request('POST', static::$endpoint . '/' . $id . '/reactivate');
     }
 
-    public function destroy($id, $permanent = false)
+    public function permanentlyDestroy($id)
     {
-        $headers = [];
-        if ($permanent) {
-            $headers = compact('permanent');
-        }
+        $headers = ['permanent' => true];
 
         $response = $this->requester->request('DELETE', static::$endpoint . '/' . $id, $headers, [], true);
 
