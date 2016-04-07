@@ -52,6 +52,49 @@ final class LunoApiException extends Exception
     }
 
     /**
+     * Alias for the getLunoDesc() function.
+     *
+     * @return string
+     */
+    public function getLunoDescription()
+    {
+        return $this->getLunoDesc();
+    }
+
+    /**
+     * Getter for the Luno Description
+     *
+     * @return string
+     */
+    public function getLunoDesc()
+    {
+        return $this->luno_description;
+    }
+
+    /**
+     * Super easy way of showing everything for debugging.
+     *
+     * @param bool $extra
+     * @return array
+     */
+    public function getAll($extra = false)
+    {
+        $error = [
+            'code'        => $this->getLunoCode(),
+            'message'     => $this->getMessage(),
+            'description' => $this->getLunoDesc(),
+            'status'      => $this->getLunoStatus(),
+        ];
+
+        if($extra)
+        {
+            $error['extra'] = $this->getLunoExtra();
+        }
+
+        return $error;
+    }
+
+    /**
      * Getter for Luno Code
      *
      * @return string
@@ -79,25 +122,5 @@ final class LunoApiException extends Exception
     public function getLunoExtra()
     {
         return $this->luno_extra;
-    }
-
-    /**
-     * Alias for the getLunoDesc() function.
-     *
-     * @return string
-     */
-    public function getLunoDescription()
-    {
-        return $this->getLunoDesc();
-    }
-
-    /**
-     * Getter for the Luno Description
-     *
-     * @return string
-     */
-    public function getLunoDesc()
-    {
-        return $this->luno_description;
     }
 }
